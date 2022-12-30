@@ -1,10 +1,26 @@
 import numpy as np 
 
+#x = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
+#y = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
+
 x = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 y = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
 
-from tensorflow.keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
 
 
-# [13] : 예측
+model = Sequential()
+model.add(Dense(1, input_dim=1))
+
+model.compile(loss='mae', optimizer='adam')
+model.fit(x, y, epochs=2000)
+
+result = model.predict([13]) # [13] : 예측
+print('결과 : ', result)
+
+
+
+
+

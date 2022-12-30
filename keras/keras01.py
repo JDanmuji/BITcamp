@@ -12,6 +12,8 @@ y = np.array([1, 2, 3])
 from tensorflow.keras.models import Sequential #순차적 모델 (딥러닝에서 순차적을 모델로 만들 수 있음)
 from tensorflow.keras.layers import Dense #일차함수 y 구성 모델, layer(단계)
 
+#keras :  딥러닝 API 라이브러리
+
 model = Sequential()
 model.add(Dense(1, input_dim=1))  # y = ax + b
                 #output(y), input(x)
