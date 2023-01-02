@@ -9,6 +9,10 @@ y = np.array([1, 2, 3])
 
 #2. 모델구성
 #keras :  딥러닝 API 라이브러리
+#tensorflow : 구글 브레인 팀이 개발한 텐서플로우는 수치 계산과 대규모 머신러닝을 위한 오픈소스 라이브러리다. 
+# 텐서플로우는 다수의 머신러닝과 딥 러닝(신경망) 모델과 알고리즘을 결합해 공통 메타포를 통해 유용성을 높혔다. 
+# 파이썬(Python)을 사용, 프레임워크로 애플리케이션을 구축하기 위한 편리한 프론트 엔드 API를 제공하며 성능이 
+# 우수한 C++로 애플리케이션을 실행
 #tensorflow + keras(통합 되었음), tensorflow 안의 keras 중 model, layer 에서 Sequential, Dense 클래스를 import 함
 #순차적 모델 (딥러닝에서 순차적을 모델로 만들 수 있음)
 from tensorflow.keras.models import Sequential
