@@ -13,6 +13,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
 model = Sequential()
+#단일신경망
 model.add(Dense(1, input_dim=1))
 
 
