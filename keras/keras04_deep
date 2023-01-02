@@ -6,14 +6,17 @@ from tensorflow.keras.layers import Dense
 
 # 1. 데이터
 x = np.array([1, 2, 3, 4, 5])
-y = np.array([1, 2, 3, 4, 5])
+y = np.array([1, 2, 3, 5, 4])
 
 # 2. 모델구성, 심층신경망(딥러닝)
+# 노드의 깊이가 많을수록 성능은 좋아지지만, 여러 요소를 신경써야됨
+# 하이퍼 파라미터 튜닝
 model = Sequential()
 model.add(Dense(3, input_dim=1))
-model.add(Dense(50))
+model.add(Dense(40))
 model.add(Dense(35))
 model.add(Dense(13))
+model.add(Dense(8))
 model.add(Dense(1))
 
 
