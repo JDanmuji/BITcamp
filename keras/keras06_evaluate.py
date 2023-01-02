@@ -23,19 +23,13 @@ model.add(Dense(1))
 # 3. 컴파일, 훈련
 model.compile(loss='mae', optimizer='adam')
 #batch 사이즈는 fit에서 관리
-"""
-batch : 데이터 셋을 그룹으로 나누는 수
-batch_size = 1 , 데이터 그룹 = 6
-batch_size = 2 , 데이터 그룹 = 3
-batch_size = 3 , 데이터 그룹 = 2 
-batch_size = 4  , 데이터 그룹 = 2 (4, 2로 나누고 2하고 남은 만큼 또 훈련)
-batch_size = 6 , 데이터 그룹 = 1
-batch_size = 7 , 데이터 그룹 = 1 (6하고 1 남은 만큼 또 훈련)
-"""
-model.fit(x, y, epochs=10, batch_size=1)
+model.fit(x, y, epochs=10, batch_size=7)
 
 # 4. 평가, 예측
+#loss 가 기준이다. (predict으로 평가하면 안된다.)
+loss = model.evaluate(x, y) #훈련된 데이터가 들어가면 안된다. 
 result = model.predict([6])
+print('loss : ', loss)
 print('6의 결과 : ', result)
 
 
