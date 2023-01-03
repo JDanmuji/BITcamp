@@ -10,10 +10,10 @@ x = np.array([[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 
 y = np.array([2, 4, 6, 8, 10, 12, 14, 16, 18, 20])
 
+print(x.shape)
+print(y.shape)
 
-#print(x.shape)
-#print(y.shape)
-
+# 데이터 열과 행 바꿈
 x = x.T
 print(x.shape)
 

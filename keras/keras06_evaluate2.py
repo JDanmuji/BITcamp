@@ -21,15 +21,16 @@ model.add(Dense(1))
 
 
 # 3. 컴파일, 훈련
-model.compile(loss='mae', optimizer='adam')
+model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
 #batch 사이즈는 fit에서 관리
 model.fit(x, y, epochs=10, batch_size=1)
 
 # 4. 평가, 예측
 #loss 가 기준이다. (predict으로 평가하면 안된다.)
-loss = model.evaluate(x, y) #훈련된 데이터가 들어가면 안된다. 
+loss, acc = model.evaluate(x, y, batch_size=1) #훈련된 데이터가 들어가면 안된다. 
 result = model.predict([6])
 print('loss : ', loss)
+print('acc : ', acc)
 print('6의 결과 : ', result)
 
 
