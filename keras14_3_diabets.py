@@ -24,22 +24,20 @@ print(y.shape) # (442,)
 
 
 x_train, x_test, y_train, y_test = train_test_split(x, y,
-    train_size=0.7, shuffle=True, random_state=123                                                                                                       
+    train_size=0.9, shuffle=True, random_state=123                                                                                                       
 )
 
 #2. 모델구성
 inputs = Input(shape=(10, ))
 hidden1 = Dense(256, activation='relu') (inputs)
-hidden2 = Dense(128, activation='relu') (hidden1)
-hidden3 = Dense(64, activation='relu') (hidden2)
-hidden4 = Dense(64, activation='relu') (hidden3)
-hidden5 = Dense(10, activation='relu') (hidden4)
-hidden6 = Dense(5, activation='relu') (hidden5)
+hidden2 = Dense(128) (hidden1)
+hidden3 = Dense(64) (hidden2)
+hidden4 = Dense(64) (hidden3)
+hidden5 = Dense(10) (hidden4)
+hidden6 = Dense(5) (hidden5)
 output = Dense(1) (hidden6)
 
 model = Model(inputs=inputs, outputs=output)
-
-
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
@@ -66,6 +64,14 @@ print("===================================")
 
 
 '''
+[train_size=0.9]
+===================================
+loss :  [2576.796142578125, 38.35049819946289]
+R2 :  0.6136092423759105
+RMSE :  50.76215388503177
+===================================
+
+
 
 
 '''

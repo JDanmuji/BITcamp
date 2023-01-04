@@ -47,7 +47,7 @@ model = Model(inputs=inputs, outputs=output)
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=200, batch_size=4)
+model.fit(x_train, y_train, epochs=300, batch_size=4, validation_data=(x, y))
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -77,10 +77,17 @@ R2 :  0.6865318459553265
 RMSE :  5.033590437402777
 
 
-[batch_size=4]
+[batch_size=4]  epochs=200
 loss :  [18.5551815032959, 3.1334645748138428]
 R2 :  0.7704364575140819
 RMSE :  4.307572756982908
+
+
+[batch_size=4]  epochs=300
+loss :  [16.275354385375977, 2.8233115673065186]
+R2 :  0.7986423340329392
+RMSE :  4.034272658575977
+
 
 '''
 

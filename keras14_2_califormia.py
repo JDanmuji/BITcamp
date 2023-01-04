@@ -1,7 +1,5 @@
 # 실습 
 # R2 0.55 ~ 0.6 이상
-
-
 import numpy as np 
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Input, Dense

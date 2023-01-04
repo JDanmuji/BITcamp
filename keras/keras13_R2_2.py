@@ -9,10 +9,15 @@
 # 8. loss 지표는 mse 또는 mae
 # 9. activation 사용금지
 
+import numpy as np 
+
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
-import numpy as np 
+
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import r2_score
+
 
 #1. 데이터
 x = np.array(range(1,21))
@@ -23,19 +28,16 @@ x_train, x_test, y_train, y_test = train_test_split(x, y,
     train_size=0.7, shuffle=True, random_state=123                                                                                                       
 )
 
-#2. 모델 구성 // 과적합, 많은 계산량, 많은 학습 데이터
+#2. 모델 구성 [과적합, 많은 계산량, 많은 학습 데이터] 
+# 1. activation 함수 사용
 model = Sequential()
 model.add(Dense(100, input_dim=1, kernel_initializer = 'uniform'))
-model.add(Dense(100))
-model.add(Dense(100))
-model.add(Dense(100))
-model.add(Dense(100))
+model.add(Dense(1))
 model.add(Dense(100))
 model.add(Dense(1))
-
-
-
-
+model.add(Dense(400))
+model.add(Dense(500))
+model.add(Dense(1))
 
 
 #3. 컴파일, 훈련
@@ -49,20 +51,19 @@ print('loss : ' , loss)
 
 y_predict = model.predict(x_test)
 
-print("===================================")
-print(y_test)
-print(y_predict)
-print("===================================")
-
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import r2_score
 
 def RMSE(y_test, y_predict) : 
     return np.sqrt(mean_squared_error(y_test, y_predict))
 
-print("RMSE : " , RMSE(y_test, y_predict))
+
 
 r2 = r2_score(y_test, y_predict)
-print("R2 : ", r2)
 
-# RMSE :  3.8315291146057255
+
+
+print("===================================")
+print(y_test)
+print(y_predict)
+print("R2 : ", r2)
+print("RMSE : " , RMSE(y_test, y_predict))
+print("===================================")
