@@ -7,6 +7,7 @@
 # 6. train 70%
 # 7. epoch 100번 이상
 # 8. loss 지표는 mse 또는 mae
+# 9. activation 사용금지
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
@@ -24,19 +25,22 @@ x_train, x_test, y_train, y_test = train_test_split(x, y,
 
 #2. 모델 구성 // 과적합, 많은 계산량, 많은 학습 데이터
 model = Sequential()
-model.add(Dense(10, input_dim=1))
-model.add(Dense(4))
-model.add(Dense(300))
-model.add(Dense(1000))
-model.add(Dense(4))
-model.add(Dense(400))
-model.add(Dense(500))
-model.add(Dense(4))
+model.add(Dense(100, input_dim=1, kernel_initializer = 'uniform'))
+model.add(Dense(100))
+model.add(Dense(100))
+model.add(Dense(100))
+model.add(Dense(100))
+model.add(Dense(100))
 model.add(Dense(1))
+
+
+
+
+
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=200, batch_size=1)
+model.fit(x_train, y_train, epochs=100, batch_size=1)
 
 
 #4. 평가
