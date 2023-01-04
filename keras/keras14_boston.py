@@ -32,6 +32,9 @@ x_train, x_test, y_train, y_test = train_test_split(x, y,
 )
 
 #2. 모델구성
+# Sequential() 은 순차적으로 add 하기 때문에 복잡한 신경망을 구현하기 어렵다.
+# 따라서, 선생님은 모델에 문제가 있는 것을 파악하고 해당 부분을 어떻게든 수정하면서 배워나가는 방식으로
+# 실습 시키신 것으로 추측
 inputs = Input(shape=(13, ))
 hidden1 = Dense(256, activation='relu') (inputs)
 hidden2 = Dense(128) (hidden1)
