@@ -2,9 +2,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 import numpy as np 
 from sklearn.model_selection import train_test_split
-#그림그리기, 그래프(시각화)
-import matplotlib.pyplot as plt
 
+# 데이터 범위의 차 정리, 어떨 때 뭘 사용하는 게 좋은지
 
 #1. 데이터
 x = np.array(range(1,21))
@@ -24,21 +23,25 @@ model.add(Dense(10))
 model.add(Dense(1))
 
 #3. 컴파일, 훈련
-model.compile(loss='mae', optimizer='adam')
+model.compile(loss='mse', optimizer='adam')
 model.fit(x_train, y_train, epochs=100, batch_size=1)
 
 
 #4. 평가
 loss = model.evaluate(x_test, y_test)
 print('loss : ' , loss)
-y_predict = model.predict(x)
-print('y_predict : ', y_predict)
 
 
-plt.scatter(x, y) # y는 선으로 이어주세요
-plt.plot(x, y_predict, color='red')
-plt.show()
 
+'''
+
+    [mae의 결과]
+    loss :  3.146573305130005
+    
+    [mse의 결과]
+    loss :  15.29187297821045
+    
+'''
 
 
 
