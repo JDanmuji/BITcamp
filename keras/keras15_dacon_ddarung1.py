@@ -43,7 +43,6 @@ print(x) # [1459 rows x 9 columns]
 y = train_csv['count']
 
 
-
 x_train, x_test, y_train, y_test = train_test_split(x, y,
     train_size=0.7, shuffle=True, random_state=123                                                                                                       
 )
@@ -75,7 +74,7 @@ def RMSE(y_test, y_predict) :
 
 r2 = r2_score(y_test, y_predict)
 
-#제출할 놈
+#제출
 y_submit = model.predict(test_csv)
 
 # 결측치 나쁜놈!
@@ -94,6 +93,8 @@ print("===================================")
 [결측지가 있는 경우]
 loss : nan
 ValueError: Input contains NaN.
+
+
 
 [결측지 제거]
 R2 :  0.5738889026735445
