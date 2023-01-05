@@ -41,7 +41,7 @@ model = Model(inputs=inputs, outputs=output)
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=500, batch_size=32, validation_split=0.5)
+model.fit(x_train, y_train, epochs=700, batch_size=32, validation_split=0.5)
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
