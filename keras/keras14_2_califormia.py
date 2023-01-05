@@ -38,8 +38,11 @@ model = Model(inputs=inputs, outputs=output)
 
 
 #3. 컴파일, 훈련
+import time
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+start = time.time()
 model.fit(x_train, y_train, epochs=100, batch_size=32)
+end = time.time()
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -58,6 +61,7 @@ print("===================================")
 print('loss : ' , loss)
 print("R2 : ", r2)
 print("RMSE : " , RMSE(y_test, y_predict))
+print("걸린 시간 : ", end - start)
 print("===================================")
 
 
@@ -71,5 +75,18 @@ R2 :  0.6282677411627802
 RMSE :  0.7010973612070512
 ===================================
 
+
+
+[cpu]
+loss :  [0.47160282731056213, 0.5052147507667542]
+R2 :  0.643343658506472
+RMSE :  0.686733419079916
+걸린 시간 :  42.19237685203552
+
+[gpu]
+loss :  [0.47861427068710327, 0.5232479572296143]
+R2 :  0.6380411738736391
+RMSE :  0.6918194897918106
+걸린 시간 :  145.63760232925415
 
 '''

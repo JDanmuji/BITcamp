@@ -77,6 +77,6 @@ print(y_test)
 print(y_predict)
 print("submit : ", y_submit) 
 print("R2 : " , r2)
-print("RMSE : ", RMSE(y_test, y_predict)) #54.9284510177609
+print("RMSE : ", RMSE(y_test, y_predict))
 print("===================================")
 
