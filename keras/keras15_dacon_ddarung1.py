@@ -5,9 +5,12 @@ from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 
+#주어진 데이터를 바탕으로 따릉이 대여량을 예측 해보세요!
 
 # 1. 데이터
 path = './_data/ddarung/'                    
+
+#인공지능을 다룰 때 대부분의 데이터들은 csv 파일로 관리 (csv : 엑셀파일)
                                             #index 컬럼은 0번째
 train_csv = pd.read_csv(path + 'train.csv', index_col=0)   # [715 rows x 9 columns]
 test_csv = pd.read_csv(path + 'test.csv', index_col=0)     #[1459 rows x 10 columns]
@@ -31,14 +34,14 @@ print(train_csv.info()) #컬럼 정보, non-null = 결측지
 
 
 print(test_csv.info()) #컬럼 정보, non-null = 결측지
-print(train_csv.describe())
+print(train_csv.describe()) 
 
-
+                              #axis : 인덱스, 행 : 0(default), 열 : 1, 
 x = train_csv.drop(['count'], axis=1) # 10개 중 count 컬럼을 제외한 나머지 9개만 inputing
 print(x) # [1459 rows x 9 columns]
+#count 컬럼 제거
 y = train_csv['count']
 
-print(y)
 
 
 x_train, x_test, y_train, y_test = train_test_split(x, y,
