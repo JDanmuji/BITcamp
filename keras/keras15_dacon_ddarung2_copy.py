@@ -57,7 +57,7 @@ model.add(Dense(15))
 model.add(Dense(8))
 model.add(Dense(1))
 
-#3. 컴파일,
+#3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
 model.fit(x_train, y_train , epochs=200, batch_size=32)
 
@@ -71,11 +71,10 @@ def RMSE(y_test, y_predict) :
 
 r2 = r2_score(y_test, y_predict)
 
-#제출할 놈
-# to.csv() 를 사용해서 
-# submission_0105.csv를 완성하시오.
+#제출
 y_submit = model.predict(test_csv)
 
+# to.csv() 를 사용해서 submission_0105.csv를 완성하시오.
 submission['count'] = y_submit
 submission.to_csv(path + 'submission_0105.csv')
 

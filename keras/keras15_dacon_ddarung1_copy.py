@@ -63,11 +63,10 @@ def RMSE(y_test, y_predict) :
 
 r2 = r2_score(y_test, y_predict)
 
-#제출할 놈
-# to.csv() 를 사용해서 
-# submission_0105.csv를 완성하시오.
+#제출
 y_submit = model.predict(test_csv)
 
+# to.csv() 를 사용해서 submission_0105.csv를 완성하시오.
 submission['count'] = y_submit
 submission.to_csv(path + 'submission_0105.csv')
 

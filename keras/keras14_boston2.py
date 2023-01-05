@@ -9,9 +9,9 @@ from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.datasets import load_boston
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
-# import sklearn as sk
+import sklearn as sk
 
-# print(sk.)
+print(sk.__version__)
 
 # 1. 데이터
 dataset = load_boston()

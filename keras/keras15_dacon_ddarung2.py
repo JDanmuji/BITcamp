@@ -57,9 +57,12 @@ model.add(Dense(15))
 model.add(Dense(8))
 model.add(Dense(1))
 
-#3. 컴파일,
+#3. 컴파일, 훈련
+import time
 model.compile(loss='mse', optimizer='adam')
-model.fit(x_train, y_train , epochs=200, batch_size=32)
+start = time.time()
+model.fit(x_train, y_train , epochs=100, batch_size=32)
+end = time.time()
 
 
 #4. 예측, 평가
@@ -71,10 +74,10 @@ def RMSE(y_test, y_predict) :
 
 r2 = r2_score(y_test, y_predict)
 
-#제출할 놈
-# to.csv() 를 사용해서 
-# submission_0105.csv를 완성하시오.
+#제출
 y_submit = model.predict(test_csv)
+
+# to.csv() 를 사용해서 submission_0105.csv를 완성하시오.
 
 submission['count'] = y_submit
 submission.to_csv(path + 'submission_0105.csv')
@@ -86,6 +89,21 @@ print(y_test)
 print(y_predict)
 print("submit : ", y_submit) 
 print("R2 : " , r2)
-print("RMSE : ", RMSE(y_test, y_predict)) #54.9284510177609
+print("RMSE : ", RMSE(y_test, y_predict)) 
+print("걸린시간 : ", end - start)
 print("===================================")
 
+
+
+
+'''
+[cpu]
+R2 :  0.5837751037336487
+RMSE :  52.50501988058989
+걸린시간 :  3.5466063022613525
+
+[gpu]
+R2 :  0.5786453798085762
+RMSE :  52.8275756449218
+걸린시간 :  11.391770601272583
+'''
