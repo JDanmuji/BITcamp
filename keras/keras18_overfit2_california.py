@@ -1,7 +1,6 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 
-
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Input, Dense
@@ -21,6 +20,8 @@ y = datasets.target
 x_train, x_test, y_train, y_test = train_test_split(x, y,
     train_size=0.7, shuffle=True, random_state=123                                                                                                       
 )
+
+
 #2. 모델 구성
 inputs = Input(shape=(8, ))
 hidden1 = Dense(256, activation='relu') (inputs)

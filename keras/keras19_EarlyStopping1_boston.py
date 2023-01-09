@@ -3,7 +3,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
-import matplotlib
 
 
 #1. 데이터
@@ -20,17 +19,31 @@ x_train, x_test, y_train, y_test = train_test_split (
 #2. 모델 구성
 model =  Sequential()
 #model.add(Dense(5, input_dim=13))
-model.add(Dense(5, input_shape=(13, )))
-model.add(Dense(40000))
-model.add(Dense(3))
-model.add(Dense(20000))
+model.add(Dense(128, input_shape=(13, )))
+model.add(Dense(64))
+model.add(Dense(32))
+model.add(Dense(24))
+model.add(Dense(8))
+model.add(Dense(4))
 model.add(Dense(1))
 
 import time
 
 model.compile(loss='mse', optimizer='adam')                                 
-start = time.time()                                                                            
-hist = model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, verbose=1) #fit 이 return 한다.
+start = time.time()                                                                         
+from tensorflow.keras.callbacks import EarlyStopping #파이썬 클래스 대문자로 시작   
+
+#earlyStopping 약점 : 5번을 참고 끊으면 그 순간에 weight가 저장 (끊는 순간)
+                                                    
+                                                                                               
+earlyStopping = EarlyStopping(monitor='val_loss', 
+                              mode='min', 
+                              patience=10, #참을성     
+                              restore_best_weights=True, 
+                              verbose=1
+                              )
+
+hist = model.fit(x_train, y_train, epochs=100, batch_size=1, callbacks=[earlyStopping], validation_split=0.2, verbose=1) #fit 이 return 한다.
 end = time.time()
 
 #3. 평가, 예측
@@ -41,6 +54,8 @@ print(hist) # <keras.callbacks.History object at 0x00000258175F20A0>
 print('============================================')
 print(hist.history) # loss, vel-loss 의 변화 형태(딕셔너리 형태|key-value) , value의 형태가 list
 print('============================================')
+print(hist.history)
+print('============================================')
 print(hist.history['loss'])
 print('============================================')
 print(hist.history['val_loss'])
@@ -50,11 +65,9 @@ print('============================================')
 print('걸린시간 : ', end - start)
 
 
-# 차트 한글 폰트 사용
-matplotlib.rcParams['font.family'] ='Malgun Gothic'
-matplotlib.rcParams['axes.unicode_minus'] =False
-
 plt.figure(figsize=(9,6))
+
+
 # x 명시 안해도 됨
 # hist loss 사용, 색은 red, 선모양은 ., y 선의 이름은 loss
 plt.plot(hist.history['loss'], c='red', marker='.', label='loss')
@@ -67,7 +80,7 @@ plt.xlabel('epochs')
 # y 축 이름 
 plt.ylabel('loss')
 # 차트 제목
-plt.title('보스톤 차트')
+plt.title('boston loss')
 # 그래프 선 이름 표
 plt.legend()
 #plt.legend(loc='upper right')  그래프 선 이름 표, 위치

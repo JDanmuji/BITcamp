@@ -39,8 +39,6 @@ train['hour_bef_temperature'].fillna({934:14.788136, 1035:20.926667}, inplace=Tr
 
 # 마찬가지로 test 결측치 처리. 이 때 결측값을 대체할 값은 train에서 가져온다는 점 주의
 
-
-
 model = RandomForestRegressor(criterion = 'mse')
 # 따릉이 대회의 평가지표는 RMSE. RMSE는 MSE 평가지표에 루트를 씌운 것이므로 MSE를 평가척도로 정함.
 
