@@ -32,8 +32,10 @@ x_train, x_validation, y_train, y_validation = train_test_split(x, y,
 )
 
 x_train, x_test, y_train, y_test = train_test_split(x_train, y_train,
-    test_size=0.2, shuffle=False
+    test_size=0.3, shuffle=False
 )
+
+
 
 
 
@@ -42,7 +44,7 @@ inputs = Input(shape=(9, ))
 hidden1 = Dense(256, activation='relu') (inputs)
 hidden2 = Dense(128, activation='relu') (hidden1)
 hidden3 = Dense(64, activation='relu') (hidden2)
-hidden4 = Dense(32, activation='relu') (hidden3)
+hidden4 = Dense(32) (hidden3)
 hidden5 = Dense(16) (hidden4)
 hidden6 = Dense(8) (hidden5)
 output = Dense(1) (hidden6)
@@ -52,7 +54,8 @@ model = Model(inputs=inputs, outputs=output)
 
 #3. 컴파일, 훈련
 model.compile(loss='mae', optimizer='adam')
-model.fit(x_train, y_train , epochs=200, batch_size=32,  validation_data=(x_validation, y_validation))
+model.fit(x_train, y_train , epochs=200, batch_size=32 , validation_data=(x_validation, y_validation)
+          )
 
 
 #4. 예측, 평가
