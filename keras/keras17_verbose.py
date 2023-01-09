@@ -25,7 +25,7 @@ model.add(Dense(1))
 
 import time
 
-model.compile(loss='mse', optimizer='adam')                                 # True : 1, False : 0, 간단한 실행(진행바 사라짐) : 2, 실행수만보여줌 : 3 ~
+model.compile(loss='mse', optimizer='adam')                                 # True : 1, False : 0, 프로그래스바 제거(진행바 사라짐) : 2, 에포(반복치)만 보여줌 : 3 ~
                                                                             # 말수가 많음 실행할 때, 코드 보여주는 게 딜레이가 생긴다.
                                                                             # 자원낭비
 start = time.time()                                                                            
