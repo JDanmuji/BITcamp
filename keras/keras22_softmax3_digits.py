@@ -1,25 +1,20 @@
 import numpy as np
-
-from tensorflow.keras.utils import to_categorical
+from sklearn.datasets import load_digits
+from sklearn.datasets import load_iris
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
-
-from sklearn.datasets import load_wine
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-
-import pandas as pd
+from tensorflow.keras.utils import to_categorical
 
 #1. 데이터
-datasets = load_wine()
-
+datasets = load_digits()
 x = datasets.data
-y = datasets.target
+y = datasets['target']
 
-print(x.shape, y.shape) # (178, 13) (178, )
-print(y)
-print(np.unique(y)) # [0, 1, 2] output: 3
-print(np.unique(y, return_counts=True)) # (array([0, 1, 2]), array([59, 71, 48], dtype=int64))
+print(x.shape, y.shape)
+print(np.unique(y, return_counts=True))
+
+
 
 y = to_categorical(y)
 
@@ -36,18 +31,17 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 #2. 모델구성 # 분류형 모델
 model = Sequential()
-model.add(Dense(50, activation='relu', input_shape=(13,)))
+model.add(Dense(50, activation='relu', input_shape=(64,)))
+#모델을 늘리는 것도 성능에 큰 차이를 줌
 model.add(Dense(40, activation='sigmoid'))
 model.add(Dense(30, activation='relu'))
-model.add(Dense(10, activation='linear'))
-model.add(Dense(3, activation='softmax')) # 이진 모델과 같이 'softmax' 고정
+model.add(Dense(20, activation='linear'))
+model.add(Dense(10, activation='softmax')) # 이진 모델과 같이 'softmax' 고정
+
 
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-                                                                                             
-
-
-model.fit(x_train, y_train, epochs=200, batch_size=32, validation_split=0.25, verbose=1)
+model.fit(x_train, y_train, epochs=100, batch_size=32, validation_split=0.2, verbose=1)
 
                                                               
 #4. 평가, 예측
@@ -56,11 +50,10 @@ print('loss : ', loss)
 print('accuracy : ', accuracy)
 
 
-# print(y_test[:5])
-# y_predict = model.predict(x_test[:5])
-# print(y_predict)
 
 
+from sklearn.metrics import accuracy_score
+import numpy as np
 y_predict = model.predict(x_test)
 
 y_predict = np.argmax(y_predict, axis=1) # y_predict 가장 큰 값의 자릿수 뽑음 : 예측한 값
@@ -75,11 +68,9 @@ acc = accuracy_score(y_test, y_predict)
 
 print(acc)
 
-'''
-[validation_split=0.25]
-loss :  0.13796885311603546
-accuracy :  0.9814814925193787
+# # 이미지
+# import matplotlib.pyplot as plt
+# plt.gray()
+# plt.matshow(datasets.image[5])
+# plt.show()
 
-validation_split를 조절했을 때 생각보다 accuracy에 영향이 많이감.
-
-'''
