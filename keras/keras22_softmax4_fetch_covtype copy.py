@@ -18,11 +18,13 @@ import tensorflow as tf
 # 1. 데이터 
 datasets = fetch_covtype()
 
+print(type(datasets))
 
-# 선생님질문 : x, y 데이터 뽑아올 때, 이미 array
 x = datasets.data
 y = datasets['target']
 
+print(type(x))
+print(type(y))
 
 # 1. to_categorical() 사용
 # y = to_categorical(y)
@@ -35,20 +37,21 @@ y = datasets['target']
 # y = np.array(y)
 
 # 3. OneHotEncoder() 사용
-# type     
-# sparse = True(Default), Mactrics 반환, toArray(가 필요)
-# sparse = False, array 변환
-enc = OneHotEncoder(sparse=True)
+# type 
+print(type(y))
+enc = OneHotEncoder(sparse=False)
+#y = np.array(y)
 y = y.reshape(-1, 1)
 enc.fit(y)
 
-# sparse = True
-y = enc.transform(y).toarray()
-# sparse = False
-#y = enc.transform(y)
-
+print(type(y))
+y = enc.transform(y)
+print(type(y))
 #ohe = OneHotEncoder()
+
+
 #y = ohe.fit_transform(y)
+
 #print(type(y))
 
 

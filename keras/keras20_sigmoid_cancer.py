@@ -67,11 +67,11 @@ print(y_test[:10])
 #accuracy_score 보면 y_predict(실수), y_test(이진코드) 자료형이 안맞음
 
 y = list(map(int, y))
-
+print(y)
 
 # 자료형 변환
-y_predict = np.round(y_predict)
 y_predict = list(map(int, y_predict))
+y_predict = np.round(y_predict)
 acc = accuracy_score(y_test, y_predict)
 
 print(y_predict)
