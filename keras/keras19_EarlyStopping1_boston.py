@@ -16,7 +16,7 @@ x_train, x_test, y_train, y_test = train_test_split (
     x, y, shuffle=True, random_state=333, test_size=0.2
 )
 
-#2. 모델 구성
+#2. 모델 구성 # 회귀형 모델
 model =  Sequential()
 #model.add(Dense(5, input_dim=13))
 model.add(Dense(128, input_shape=(13, )))

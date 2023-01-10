@@ -71,6 +71,8 @@ end = time.time()
 loss = model.evaluate(x_test, y_test)
 y_predict = model.predict(x_test)
 
+
+
 def RMSE(y_test, y_predict) :
     return np.sqrt(mean_squared_error(y_test, y_predict))
 
