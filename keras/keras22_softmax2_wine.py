@@ -1,47 +1,27 @@
-from sklearn.datasets import load_iris
+import numpy as np
+
+from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
-from sklearn.model_selection import train_test_split
-from tensorflow.keras.utils import to_categorical
 
+from sklearn.datasets import load_wine
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 import pandas as pd
-import tensorflow as tf
 
 #1. 데이터
-datasets = load_iris()
-
-#print(datasets.DESCR)   #판다스 .describe() / .info()  (데이터 확인용 메서드)
-#print(datasets.feature_names) # 판다스 .columns
+datasets = load_wine()
 
 x = datasets.data
-y = datasets['target']
+y = datasets.target
 
+print(x.shape, y.shape) # (178, 13) (178, )
+print(y)
+print(np.unique(y)) # [0, 1, 2] output: 3
+print(np.unique(y, return_counts=True)) # (array([0, 1, 2]), array([59, 71, 48], dtype=int64))
 
-# One-hot Encoding 방법
-
-
-# 1. keras 메서드 활용
 y = to_categorical(y)
-
-# 2. pandas의 get dummies 함수 활용
-# y = pd.get_dummies(y)
-
-# 3. tensorflow 활용
-                    #라벨 개수 사용
-#y = tf.one_hot(y, depth=4, on_value=Ture, off_value=False)
-
-
-# 4. one_hot 벡터 return 함수 사용 (y, 빈도수)
-# def one_hot_encoding(word, word_to_index):
-#   one_hot_vector = [0]*(len(word_to_index))
-#   index = word_to_index[word]
-#   one_hot_vector[index] = 1
-#   return one_hot_vector
-
-# print(x)
-# print(y)
-# print(x.shape, y.shape) # (150, 4), (150, )
 
 x_train, x_test, y_train, y_test = train_test_split(
     x, 
@@ -53,22 +33,18 @@ x_train, x_test, y_train, y_test = train_test_split(
     
 )
 
-# print(y_train)
-# print(y_test)
-
 
 #2. 모델구성 # 분류형 모델
 model = Sequential()
-model.add(Dense(50, activation='relu', input_shape=(4,)))
-#모델을 늘리는 것도 성능에 큰 차이를 줌
+model.add(Dense(50, activation='relu', input_shape=(13,)))
 model.add(Dense(40, activation='sigmoid'))
 model.add(Dense(30, activation='relu'))
-model.add(Dense(20, activation='linear'))
+model.add(Dense(10, activation='linear'))
 model.add(Dense(3, activation='softmax')) # 이진 모델과 같이 'softmax' 고정
 
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, verbose=1)
+model.fit(x_train, y_train, epochs=200, batch_size=32, validation_split=0.25, verbose=1)
 
                                                               
 #4. 평가, 예측
@@ -82,8 +58,6 @@ print('accuracy : ', accuracy)
 # print(y_predict)
 
 
-from sklearn.metrics import accuracy_score
-import numpy as np
 y_predict = model.predict(x_test)
 
 y_predict = np.argmax(y_predict, axis=1) # y_predict 가장 큰 값의 자릿수 뽑음 : 예측한 값
@@ -98,3 +72,11 @@ acc = accuracy_score(y_test, y_predict)
 
 print(acc)
 
+'''
+[validation_split=0.25]
+loss :  0.13796885311603546
+accuracy :  0.9814814925193787
+
+validation_split를 조절했을 때 생각보다 accuracy에 영향이 많이감.
+
+'''
