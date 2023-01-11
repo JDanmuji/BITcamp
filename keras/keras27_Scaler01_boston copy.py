@@ -7,7 +7,7 @@ from sklearn.datasets import load_boston
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 
 # 1. 데이터
@@ -17,22 +17,24 @@ x = dataset.data #보스턴 집 값
 y = dataset.target
 
 
-# scaler = MinMaxScaler()
-# scaler.fit(x) 
-# x = scaler.transform(x) # 실질적으로 값을 변환, 값이 바뀜
-
-# print('최소값 : ' , np.min(x)) # 최소값 :  0.0
-# print('최대값 : ' , np.max(x)) # 최대값 :  1.0
-
 
 x_train, x_validation, y_train, y_validation = train_test_split(x, y,
-    test_size=0.2, shuffle=False
+    test_size=0.2, shuffle=True
 )
 
 x_train, x_test, y_train, y_test = train_test_split(x_train, y_train,
-    test_size=0.2
+    test_size=0.2, shuffle=True, random_state=333
 )
 
+
+
+scaler = MinMaxScaler()
+x_train = scaler.fit_transform(x_train)
+
+x_train = scaler.fit_transform(x_train)
+x_train = scaler.fit_transform(x_train)
+x_test = scaler.transform(x_test)
+x_validation = scaler.transform(x_validation)
 
 
 #2. 모델구성
@@ -73,24 +75,19 @@ print("===================================")
 
 '''
 
-[변환전]
-
-[변환후]
-mse :  495.10791015625
-mae :  20.569766998291016
+mse :  681.2109985351562
+mae :  23.94444465637207
 ===================================
-R2 :  -5.877207980782226
-RMSE :  22.251020358103673
+R2 :  -5.314843256456973
+RMSE :  26.100018920574
 ===================================
 
-
-mse :  553.7828979492188
-mae :  21.731393814086914
+mse :  252.65371704101562
+mae :  15.025489807128906
 ===================================
-R2 :  -5.792435086570172
-RMSE :  23.53259244062889
+R2 :  -8.39639430827756
+RMSE :  15.895084947561497
 ===================================
-
 '''
 
 

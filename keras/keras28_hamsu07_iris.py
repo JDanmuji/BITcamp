@@ -1,6 +1,6 @@
 from sklearn.datasets import load_iris
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Dense, Input
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
 
@@ -53,13 +53,17 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 
 #2. 모델구성 # 분류형 모델
-model = Sequential()
-model.add(Dense(50, activation='relu', input_shape=(4,)))
-#모델을 늘리는 것도 성능에 큰 차이를 줌
-model.add(Dense(40, activation='sigmoid'))
-model.add(Dense(30, activation='relu'))
-model.add(Dense(20, activation='linear'))
-model.add(Dense(3, activation='softmax')) # 이진 모델과 같이 'softmax' 고정
+
+inputs = Input(shape=(4, ))
+hidden1 = Dense(256, activation='relu') (inputs)
+hidden2 = Dense(128, activation='sigmoid') (hidden1)
+hidden3 = Dense(64, activation='relu') (hidden2)
+hidden4 = Dense(32, activation='linear') (hidden3)
+hidden5 = Dense(16, activation='linear') (hidden4)
+output = Dense(1, activation='sigmoid') (hidden5)
+
+model = Model(inputs=inputs, outputs=output)
+
 
 #3. 컴파일, 훈련
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -85,7 +89,9 @@ y_predict = np.argmax(y_predict, axis=1) # y_predict 가장 큰 값의 자릿수
 
 print( 'y_predict(예측값)' , y_predict)
 
-y_test = np.argmax(y_test, axis=1) # y_test : y_test 값, (원 핫 인코딩을 진행했기 때문에, 다시 원복) 
+y_test = np.argmax(y_test, axis=1) 
+
+# y_test : y_test 값, (원 핫 인코딩을 진행했기 때문에, 다시 원복) 
 
 print( 'y_test(원래값)' , y_test)
 

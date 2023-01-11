@@ -85,7 +85,9 @@ y_predict = np.argmax(y_predict, axis=1) # y_predict 가장 큰 값의 자릿수
 
 print( 'y_predict(예측값)' , y_predict)
 
-y_test = np.argmax(y_test, axis=1) # y_test : y_test 값, (원 핫 인코딩을 진행했기 때문에, 다시 원복) 
+y_test = np.argmax(y_test, axis=1) 
+
+# y_test : y_test 값, (원 핫 인코딩을 진행했기 때문에, 다시 원복) 
 
 print( 'y_test(원래값)' , y_test)
 
