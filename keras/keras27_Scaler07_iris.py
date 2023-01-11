@@ -20,7 +20,7 @@ y = datasets['target']
 
 # One-hot Encoding 방법
 # 1. keras 메서드 활용
-y = to_categorical(y)
+#y = to_categorical(y)
 
 # 2. pandas의 get dummies 함수 활용
 # y = pd.get_dummies(y)

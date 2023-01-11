@@ -52,7 +52,8 @@ earlyStopping = EarlyStopping(monitor='val_loss',
                               verbose=1
                               )
 
-hist = model.fit(x_train, y_train, epochs=100, batch_size=1, callbacks=[earlyStopping], validation_split=0.2, verbose=1) #fit 이 return 한다.
+hist = model.fit(x_train, y_train, epochs=100, batch_size=1, callbacks=[
+                 earlyStopping], validation_split=0.2, verbose=1)  # fit 이 return 한다.
 
 
 #3. 평가, 예측

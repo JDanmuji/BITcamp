@@ -7,6 +7,7 @@ from tensorflow.keras.utils import to_categorical
 
 import pandas as pd
 import tensorflow as tf
+import numpy as np
 
 #1. 데이터
 datasets = load_iris()
@@ -18,9 +19,12 @@ x = datasets.data
 y = datasets['target']
 
 
+print(x.shape, y.shape)
+print(np.unique(y, return_counts=True))
+
 # One-hot Encoding 방법
 # 1. keras 메서드 활용
-y = to_categorical(y)
+#y = to_categorical(y)
 
 # 2. pandas의 get dummies 함수 활용
 # y = pd.get_dummies(y)
@@ -38,7 +42,7 @@ y = to_categorical(y)
 #   return one_hot_vector
 
 
-# print(x.shape, y.shape) # (150, 4), (150, )
+print(x.shape, y.shape) # (150, 4) (150, 3)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x, 
@@ -54,7 +58,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 #2. 모델구성 # 분류형 모델
 model = Sequential()
-model.add(Dense(50, activation='relu', input_shape=(4,)))
+model.add(Dense(50, activation='relu', input_shape=(4, )))
 #모델을 늘리는 것도 성능에 큰 차이를 줌
 model.add(Dense(40, activation='sigmoid'))
 model.add(Dense(30, activation='relu'))
@@ -85,7 +89,7 @@ y_predict = np.argmax(y_predict, axis=1) # y_predict 가장 큰 값의 자릿수
 
 print( 'y_predict(예측값)' , y_predict)
 
-y_test = np.argmax(y_test, axis=1) # y_test : y_test 값, (원 핫 인코딩을 진행했기 때문에, 다시 원복) 
+#y_test = np.argmax(y_test, axis=1) # y_test : y_test 값, (원 핫 인코딩을 진행했기 때문에, 다시 원복) 
 
 print( 'y_test(원래값)' , y_test)
 

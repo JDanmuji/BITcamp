@@ -57,9 +57,6 @@ loss, accuracy = model.evaluate(x_test, y_test)
 print('loss : ', loss)
 print('accuracy : ', accuracy)
 
-
-
-
 from sklearn.metrics import accuracy_score
 import numpy as np
 y_predict = model.predict(x_test)
