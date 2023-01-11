@@ -35,8 +35,8 @@ from tensorflow.keras.callbacks import EarlyStopping #파이썬 클래스 대문
 
 #earlyStopping 약점 : 5번을 참고 끊으면 그 순간에 weight가 저장 (끊는 순간)
                                                     
-                                                                                               
-earlyStopping = EarlyStopping(monitor='val_loss', 
+#Early stopping 은 무조건 Epoch 을 많이 돌린 후, 특정 시점에서 멈추는 것이다.                                                    
+earlyStopping = EarlyStopping(monitor='val_loss', #학습 조기종료를 위해 관찰하는 항목, val_loss 나 val_accuracy 가 주로 사용됩니다. (default : val_loss)
                               mode='min', 
                               patience=10, #참을성     
                               restore_best_weights=True, 
