@@ -18,7 +18,7 @@ y = datasets['target']
 
 
 x_train, x_test, y_train, y_test = train_test_split (
-    x, y, shuffle=True, random_state=333, test_size=0.2
+    x, y, shuffle=True, random_state=123, test_size=0.2
 )
 
 

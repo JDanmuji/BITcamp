@@ -29,7 +29,7 @@ x_train, x_validation, y_train, y_validation = train_test_split(x, y,
 )
 
 x_train, x_test, y_train, y_test = train_test_split(x_train, y_train,
-   test_size=0.2, shuffle=True
+   test_size=0.2, shuffle=True, random_state=123
 )
 
 
@@ -100,6 +100,9 @@ RMSE :  153.2706070224963
 R2 :  0.27870922945430987
 RMSE :  154.2892045456745
 ===================================
+R2 :  0.30646404413019157
+RMSE :  154.75422028698256
+
 
 '''
 

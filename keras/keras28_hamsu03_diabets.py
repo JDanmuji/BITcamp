@@ -22,7 +22,7 @@ x_train, x_test, y_train, y_test = train_test_split(
     random_state=123, test_size=0.2)
 
 # scaler = MinMaxScaler()
-# scaler = StandardScaler()
+# #scaler = StandardScaler()
 # # scaler.fit(x_train)
 # # x_train = scaler.transform(x_train)
 # x_train = scaler.fit_transform(x_train)

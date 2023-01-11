@@ -20,7 +20,7 @@ y = datasets['target']
 
 # One-hot Encoding 방법
 # 1. keras 메서드 활용
-y = to_categorical(y)
+#y = to_categorical(y)
 
 # 2. pandas의 get dummies 함수 활용
 # y = pd.get_dummies(y)
@@ -66,7 +66,7 @@ model = Model(inputs=inputs, outputs=output)
 
 
 #3. 컴파일, 훈련
-model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, verbose=1)
 
                                                               
@@ -85,11 +85,11 @@ from sklearn.metrics import accuracy_score
 import numpy as np
 y_predict = model.predict(x_test)
 
-y_predict = np.argmax(y_predict, axis=1) # y_predict 가장 큰 값의 자릿수 뽑음 : 예측한 값
+#y_predict = np.argmax(y_predict, axis=1) # y_predict 가장 큰 값의 자릿수 뽑음 : 예측한 값
 
 print( 'y_predict(예측값)' , y_predict)
 
-y_test = np.argmax(y_test, axis=1) 
+#y_test = np.argmax(y_test, axis=1) 
 
 # y_test : y_test 값, (원 핫 인코딩을 진행했기 때문에, 다시 원복) 
 

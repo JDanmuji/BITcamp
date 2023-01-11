@@ -15,9 +15,6 @@ datasets = load_digits()
 x = datasets.data
 y = datasets['target']
 
-
-
-
 y = to_categorical(y)
 
 x_train, x_test, y_train, y_test = train_test_split(
@@ -29,8 +26,6 @@ x_train, x_test, y_train, y_test = train_test_split(
     stratify=y # 분리된 데이터가 비율이 일정하게 됨, 데이터 자체(y)가 분류형 일 때만 가능 , load_boston 데이터는 회귀형 데이터라 안됨.
     
 )
-
-
 
 # scaler = MinMaxScaler()
 # x_train = scaler.fit_transform(x_train)

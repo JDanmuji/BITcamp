@@ -31,7 +31,7 @@ x_train, x_validation, y_train, y_validation = train_test_split(x, y,
 )
 
 x_train, x_test, y_train, y_test = train_test_split(x_train, y_train,
-    test_size=0.2, shuffle=False
+    test_size=0.2, shuffle=False, random_state=123
 )
 
 
@@ -131,5 +131,10 @@ loss :  37.660369873046875
 loss :  30.68071937561035
 ============================================
 걸린시간 :  14.723122835159302
+
+============================================
+loss :  27.847925186157227
+============================================
+걸린시간 :  15.615403652191162
 
 '''
