@@ -3,12 +3,15 @@ import numpy as np
 from tensorflow.keras.callbacks import EarlyStopping 
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Dense, Input
+
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_boston
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
-
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+
+path = './_save/'
 
 
 # 1. 데이터
@@ -39,29 +42,31 @@ output1 = Dense(1, activation='linear') (dense4)
 model = Model(inputs=input1, outputs=output1)
 model.summary() #Total params: 4,611
 
-path = './_save/'
-# path = '../_save/'
-# path = 'C:/study/_save/' #절대경로
+# model.save_weights(path + 'keras29_5_save_weights1.h5')
 
+# load_weights : 가중치만 저장되어, 모델에서 사용 못함.
+# 위에서 모델이 정의되어야 사용 가능
+# 순수하게 가중치만 저장되어 있어, 컴파일, 훈련을 사용 안하고 실행하면 컴파일 에러 발생
+# 결국에는 가중치만 저장되어 있어 컴파일에 대한 명시가 없기 때문에 직접 컴파일을 사용하여 실행
+
+
+# model.load_weights(path + 'keras29_5_save_weights1.h5')
 
 #3. 컴파일, 훈련
-
-
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])                                                  
                                                                                                
-earlyStopping = EarlyStopping(monitor='val_loss', 
-                              mode='min', 
-                              patience=10, #참을성     
-                              restore_best_weights=True, 
-                              verbose=1
-                              )
+# earlyStopping = EarlyStopping(monitor='val_loss', 
+                            #   mode='min', 
+                            #   patience=10, #참을성     
+                            #   restore_best_weights=True, 
+                            #   verbose=1
+                            #   )
 
-model.fit(x_train, y_train, epochs=50, batch_size=1, validation_split=0.2)
+# model.fit(x_train, y_train, epochs=50, batch_size=1, validation_split=0.2)
 
+# model.save_weights(path + 'keras29_5_save_weights2.h5') 
+model.load_weights(path + 'keras29_5_save_weights2.h5')
 
-
-model.save(path + 'keras29_3_save_model.h5')  #모델 저장 (가중치 포함 안됨)
-# 0.8083557990742595
 
 #4. 평가, 예측
 mse, mae = model.evaluate(x_test, y_test)

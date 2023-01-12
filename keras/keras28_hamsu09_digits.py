@@ -21,7 +21,7 @@ x_train, x_test, y_train, y_test = train_test_split(
     x, 
     y, 
     shuffle=True, # False 의 문제점은 데이터 분할 시, 한쪽으로 쏠림 현상 발생으로 데이터의 훈련도의 오차가 심해진다. 
-    random_state=333, # random_state 를 사용 시, 분리된 데이터가 비율이 안맞는 현상 발생
+    random_state=1, # random_state 를 사용 시, 분리된 데이터가 비율이 안맞는 현상 발생
     test_size=0.3,
     stratify=y # 분리된 데이터가 비율이 일정하게 됨, 데이터 자체(y)가 분류형 일 때만 가능 , load_boston 데이터는 회귀형 데이터라 안됨.
     

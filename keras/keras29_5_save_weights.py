@@ -3,12 +3,15 @@ import numpy as np
 from tensorflow.keras.callbacks import EarlyStopping 
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Dense, Input
+
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_boston
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
-
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+
+path = './_save/'
 
 
 # 1. 데이터
@@ -39,10 +42,7 @@ output1 = Dense(1, activation='linear') (dense4)
 model = Model(inputs=input1, outputs=output1)
 model.summary() #Total params: 4,611
 
-path = './_save/'
-# path = '../_save/'
-# path = 'C:/study/_save/' #절대경로
-
+model.save_weights(path + 'keras29_5_save_weights1.h5')
 
 #3. 컴파일, 훈련
 
@@ -58,9 +58,8 @@ earlyStopping = EarlyStopping(monitor='val_loss',
 
 model.fit(x_train, y_train, epochs=50, batch_size=1, validation_split=0.2)
 
+model.save_weights(path + 'keras29_5_save_weights2.h5') 
 
-
-model.save(path + 'keras29_3_save_model.h5')  #모델 저장 (가중치 포함 안됨)
 # 0.8083557990742595
 
 #4. 평가, 예측

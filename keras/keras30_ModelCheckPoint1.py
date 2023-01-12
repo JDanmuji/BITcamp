@@ -1,14 +1,17 @@
 import numpy as np 
 
-from tensorflow.keras.callbacks import EarlyStopping 
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint     
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Dense, Input
+
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.datasets import load_boston
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+path = './_save/'
 
 
 # 1. 데이터
@@ -39,29 +42,26 @@ output1 = Dense(1, activation='linear') (dense4)
 model = Model(inputs=input1, outputs=output1)
 model.summary() #Total params: 4,611
 
-path = './_save/'
-# path = '../_save/'
-# path = 'C:/study/_save/' #절대경로
-
 
 #3. 컴파일, 훈련
-
-
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])                                                  
-                                                                                               
-earlyStopping = EarlyStopping(monitor='val_loss', 
-                              mode='min', 
-                              patience=10, #참을성     
-                              restore_best_weights=True, 
-                              verbose=1
-                              )
+# 모델을 더 이상 학습을 못할 경우(loss, metric등의 개선이 없을 경우), 학습 도중 미리 학습을 종료시키는 콜백함수                                                                                            
+es = EarlyStopping(monitor = 'val_loss', 
+                   mode = 'min', 
+                   patience = 100, #참을성     
+                   restore_best_weights = True, 
+                   verbose = 1)
+# 모델을 저장할 때 사용되는 콜백함수
+mcp = ModelCheckpoint(monitor = 'val_loss',
+                      mode = 'auto',
+                      verbose = 1,
+                      save_best_only = True, #저장 포인트
+                      filepath = path + 'MCP/keras30_ModelCheckPoint1.hdf5')
 
-model.fit(x_train, y_train, epochs=50, batch_size=1, validation_split=0.2)
-
-
+model.fit(x_train, y_train, epochs=1000, batch_size=1, validation_split=0.2, callbacks=[es, mcp])
 
 model.save(path + 'keras29_1_save_model.h5')  #모델 저장 (가중치 포함 안됨)
-# 0.8083557990742595
+
 
 #4. 평가, 예측
 mse, mae = model.evaluate(x_test, y_test)
@@ -82,3 +82,12 @@ print("===================================")
 print("R2 : ", r2)
 print("RMSE : " , RMSE(y_test, y_predict))
 print("===================================")
+
+
+
+'''
+[MCP 저장]
+R2 :  0.8280174179284039
+
+
+'''
