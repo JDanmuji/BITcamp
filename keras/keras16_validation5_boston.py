@@ -28,7 +28,7 @@ x_train, x_test, y_train, y_test = train_test_split(x_train, y_train,
 
 
 #2. 모델구성
-inputs = Input(shape=(13, ))
+inputs = Input(shape=(13, )) # x 가 0 이하일 때를 차단하여 아무 값도 출력하지 않고 0 을 출력
 hidden1 = Dense(256, activation='relu') (inputs)
 hidden2 = Dense(128, activation='relu') (hidden1)
 hidden3 = Dense(64, activation='relu') (hidden2)

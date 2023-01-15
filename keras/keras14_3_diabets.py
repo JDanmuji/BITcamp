@@ -29,7 +29,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y,
 
 #2. 모델구성
 inputs = Input(shape=(10, ))
-hidden1 = Dense(256, activation='relu') (inputs)
+hidden1 = Dense(256) (inputs)
 hidden2 = Dense(128) (hidden1)
 hidden3 = Dense(64) (hidden2)
 hidden4 = Dense(64) (hidden3)
@@ -40,8 +40,8 @@ output = Dense(1) (hidden6)
 model = Model(inputs=inputs, outputs=output)
 
 #3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=700, batch_size=32, validation_split=0.5)
+model.compile(loss='mae', optimizer='adam', metrics=['mse'])
+model.fit(x_train, y_train, epochs=700, batch_size=4, validation_split=0.2)
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)

@@ -1,5 +1,3 @@
-#[과제, 실습]
-# R2 0.62 이상
 import numpy as np 
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Input, Dense
@@ -8,19 +6,14 @@ from sklearn.datasets import load_boston
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from sklearn.datasets import load_diabetes
+from tensorflow.keras.callbacks import EarlyStopping #파이썬 클래스 대문자로 시작   
+from sklearn.preprocessing import MinMaxScaler
 
 # 1. 데이터
 datasets = load_diabetes()
 
 x = datasets.data
 y = datasets.target
-
-
-print(x)
-print(x.shape) # (442, 10)
-print(y)
-print(y.shape) # (442,)
-
 
 
 x_train, x_validation, y_train, y_validation = train_test_split(x, y,
@@ -30,6 +23,12 @@ x_train, x_validation, y_train, y_validation = train_test_split(x, y,
 x_train, x_test, y_train, y_test = train_test_split(x_train, y_train,
     test_size=0.2, shuffle=False
 )
+
+scaler = MinMaxScaler()
+x_train = scaler.fit_transform(x_train)
+
+x_test = scaler.transform(x_test)
+x_validation = scaler.transform(x_validation)
 
 
 #2. 모델구성
@@ -45,7 +44,17 @@ output = Dense(1) (hidden6)
 model = Model(inputs=inputs, outputs=output)
 
 #3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+model.compile(loss='mae', optimizer='adam', metrics=['mse'])
+                                                   
+                                                                                               
+earlyStopping = EarlyStopping(monitor='val_loss', 
+                              mode='min', 
+                              patience=10, #참을성     
+                              restore_best_weights=True, 
+                              verbose=1
+                              )
+
+hist = model.fit(x_train, y_train, epochs=100, batch_size=1, callbacks=[earlyStopping], validation_split=0.2, verbose=1) #fit 이 return 한다.
 model.fit(x_train, y_train, epochs=300, batch_size=32, validation_data=(x_validation, y_validation))
 
 #4. 평가, 예측
@@ -69,13 +78,20 @@ print("===================================")
 
 
 '''
-[train_size=0.9]
+[Scaler 적용 전]
 ===================================
-loss :  [2576.796142578125, 38.35049819946289]
-R2 :  0.6136092423759105
-RMSE :  50.76215388503177
+loss :  [46.39445877075195, 3832.401611328125]
+R2 :  0.2656540183646532
+RMSE :  61.90639446574987
 ===================================
 
+
+[Scaler 적용 후]
+===================================
+loss :  [47.520347595214844, 3566.592529296875]
+R2 :  0.3165870755588649
+RMSE :  59.72095490008722
+===================================
 
 
 
