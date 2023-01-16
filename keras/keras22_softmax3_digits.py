@@ -14,9 +14,12 @@ y = datasets['target']
 print(x.shape, y.shape)
 print(np.unique(y, return_counts=True))
 
-
+print(y)
 
 y = to_categorical(y)
+print('===============================================================')
+
+print(y)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x, 
@@ -54,6 +57,10 @@ print('accuracy : ', accuracy)
 
 from sklearn.metrics import accuracy_score
 import numpy as np
+
+
+print (x_test)
+print (x_train)
 y_predict = model.predict(x_test)
 
 y_predict = np.argmax(y_predict, axis=1) # y_predict 가장 큰 값의 자릿수 뽑음 : 예측한 값
