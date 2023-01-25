@@ -1,10 +1,7 @@
 import numpy as np
 import pandas as pd
 import datetime
-<<<<<<< HEAD
 import tensorflow as tf
-=======
->>>>>>> 06335e1c6ab4ccbd44e3c566e68d8e8ab6a0080a
 
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint     
