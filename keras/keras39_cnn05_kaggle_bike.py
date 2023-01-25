@@ -44,7 +44,6 @@ print(x_train.shape, x_test.shape) #(8708, 8) (2178, 8)
 x_train = x_train.reshape(8708, 8, 1, 1)
 x_test = x_test.reshape(2178, 8, 1, 1)
 
-<<<<<<< HEAD
 x_train = tf.expand_dims(x_train, axis=-1)
 
 #2. 모델 구성
@@ -58,17 +57,6 @@ model.add(Dense(30, activation = 'relu'))
 model.add(Dense(20, activation = 'relu'))
 model.add(Dense(10, activation = 'relu'))
 model.add(Dense(5, activation = 'linear'))
-=======
-#2. 모델 구성
-model = Sequential()
-model.add(Conv2D(64, (2,1), input_shape=(8, 1, 1)))
-model.add(Flatten()) #dropout 훈련 시에만 적용된다.
-model.add(Dense(40, activation = 'linear'))
-
-model.add(Dense(30, activation = 'linear'))
-
-model.add(Dense(20, activation = 'linear'))
->>>>>>> 06335e1c6ab4ccbd44e3c566e68d8e8ab6a0080a
 model.add(Dense(1, activation = 'linear'))
 
 

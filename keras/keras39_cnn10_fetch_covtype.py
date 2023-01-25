@@ -4,11 +4,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 from sklearn.datasets import load_iris
 from tensorflow.keras.models import Sequential, Model
-<<<<<<< HEAD
 from tensorflow.keras.layers import Dense, Input, Dropout, Conv2D, Flatten, MaxPooling2D
-=======
-from tensorflow.keras.layers import Dense, Input, Dropout, Conv2D, Flatten
->>>>>>> 06335e1c6ab4ccbd44e3c566e68d8e8ab6a0080a
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint #파이썬 클래스 대문자로 시작   
@@ -53,13 +49,8 @@ x_test = scaler.transform(x_test)
 print(x_train.shape, x_test.shape) #(406708, 54) (174304, 54)
 
 
-<<<<<<< HEAD
 x_train = x_train.reshape(406708, 6, 3, 3)
 x_test = x_test.reshape(174304, 6, 3, 3)
-=======
-x_train = x_train.reshape(406708, 54, 1, 1)
-x_test = x_test.reshape(174304, 54, 1, 1)
->>>>>>> 06335e1c6ab4ccbd44e3c566e68d8e8ab6a0080a
 
 
 #2. 모델구성
