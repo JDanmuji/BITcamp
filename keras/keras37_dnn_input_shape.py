@@ -1,3 +1,4 @@
+# 36_dnn1 복붙
 import numpy as np
 import datetime
 
@@ -13,11 +14,11 @@ path = './_save/'
 print(x_train.shape, y_train.shape) # (60000, 28, 28) (60000,) reshape (훈련)
 print(x_test.shape, y_test.shape) # (10000, 28, 28) (10000,) (테스트)
 
-# x_train = x_train.reshape(60000, 28, 28, 1)
-# x_test = x_test.reshape(10000, 28, 28, 1)
+x_train = x_train.reshape(60000, 28, 28, 1)
+x_test = x_test.reshape(10000, 28, 28, 1)
 
-x_train = x_train.reshape(60000, 28*28)
-x_test = x_test.reshape(10000, 28*28)
+#x_train = x_train.reshape(60000, 28*28)
+#x_test = x_test.reshape(10000, 28*28)
 
 
 x_train = x_train/255.
@@ -37,12 +38,15 @@ from tensorflow.keras.layers import Dropout
 
 # 2. 모델 구성 
 model = Sequential()
-model.add(Dense(128, input_shape=(784, ), activation='relu'))
+model.add(Dense(128, input_shape=(28, 28), activation='relu'))
 model.add(Dropout(0.3))
 model.add(Dense(64, activation='relu'))
 model.add(Dropout(0.3))
 model.add(Dense(32, activation='linear'))
+model.add(Flatten())
 model.add(Dense(10, activation='softmax'))
+
+model.summary()
 
 
 # 3. 컴파일, 훈련

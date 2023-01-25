@@ -1,14 +1,14 @@
 import numpy as np
 import datetime
 
-from tensorflow.keras.datasets import mnist
+from tensorflow.keras.datasets import mnist, fashion_mnist
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint #파이썬 클래스 대문자로 시작   
 
 
 path = './_save/'
 
 # 1. 데이터
-(x_train, y_train), (x_test, y_test) = mnist.load_data() #교육용 자료, 이미 train/test 분류
+(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data() #교육용 자료, 이미 train/test 분류
 
 print(x_train.shape, y_train.shape) # (60000, 28, 28) (60000,) reshape (훈련)
 print(x_test.shape, y_test.shape) # (10000, 28, 28) (10000,) (테스트)
@@ -86,7 +86,12 @@ print('acc : ',  result[1]) # acc
 
 '''
 
-loss :  0.08782157301902771
-acc :  0.9769999980926514
+[cnn]
+loss :  0.21823906898498535
+acc :  0.9473999738693237
+
+[dnn]
+loss :  0.34240663051605225
+acc :  0.8805000185966492
 
 '''

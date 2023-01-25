@@ -1,27 +1,20 @@
 import numpy as np
 import datetime
 
-from tensorflow.keras.datasets import mnist
+from tensorflow.keras.datasets import mnist, fashion_mnist
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint #파이썬 클래스 대문자로 시작   
 
 
 path = './_save/'
 
 # 1. 데이터
-(x_train, y_train), (x_test, y_test) = mnist.load_data() #교육용 자료, 이미 train/test 분류
+(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data() #교육용 자료, 이미 train/test 분류
 
 print(x_train.shape, y_train.shape) # (60000, 28, 28) (60000,) reshape (훈련)
 print(x_test.shape, y_test.shape) # (10000, 28, 28) (10000,) (테스트)
 
-# x_train = x_train.reshape(60000, 28, 28, 1)
-# x_test = x_test.reshape(10000, 28, 28, 1)
-
-x_train = x_train.reshape(60000, 28*28)
-x_test = x_test.reshape(10000, 28*28)
-
-
-x_train = x_train/255.
-x_test = x_test/255.
+x_train = x_train.reshape(60000, 28, 28, 1)
+x_test = x_test.reshape(10000, 28, 28, 1)
 
 print(x_train.shape, y_train.shape) # (60000, 28, 28, 1) (60000,)
 print(x_test.shape, y_test.shape) # (10000, 28, 28, 1) (10000,)
@@ -31,19 +24,21 @@ print(x_test.shape, y_test.shape) # (10000, 28, 28, 1) (10000,)
 print(np.unique(y_train, return_counts=True))
 
 
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, Dense, Flatten
-from tensorflow.keras.layers import Dropout
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPooling2D, Input
 
 # 2. 모델 구성 
-model = Sequential()
-model.add(Dense(128, input_shape=(784, ), activation='relu'))
-model.add(Dropout(0.3))
-model.add(Dense(64, activation='relu'))
-model.add(Dropout(0.3))
-model.add(Dense(32, activation='linear'))
-model.add(Dense(10, activation='softmax'))
+inputs = Input(
+                 shape=(28, 28, 1)
+               )
+hidden1 = MaxPooling2D() (inputs)
+hidden2 = Conv2D(filters=64, kernel_size=(2, 2), padding='same', strides=2) (hidden1)
+hidden3 = Conv2D(filters=64, kernel_size=(2, 2)) (hidden2)
+hidden4 = Flatten() (hidden3)
+output = Dense(10, activation='softmax') (hidden4)
 
+
+model = Model(inputs=inputs, outputs=output)
 
 # 3. 컴파일, 훈련
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['acc'])
@@ -86,7 +81,12 @@ print('acc : ',  result[1]) # acc
 
 '''
 
-loss :  0.08782157301902771
-acc :  0.9769999980926514
+[maxpool 적용 전]
+Total params: 1,543,914
+
+[maxpool 적용 후]
+Total params: 397,034
+loss :  0.07935530692338943
+acc :  0.9801999926567078
 
 '''
