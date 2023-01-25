@@ -71,8 +71,6 @@ es = EarlyStopping(monitor = 'val_loss',
                    patience = 100, #참을성     
                    #restore_best_weights = False, 
                    verbose = 1)
-0
-
 
 date = datetime.datetime.now()
 date = date.strftime("%m%d_%H%M")
