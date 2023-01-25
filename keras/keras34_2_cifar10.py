@@ -64,7 +64,7 @@ model.compile(loss='mse', optimizer='adam', metrics=['acc', 'mae'])
                                    
 es = EarlyStopping(monitor='val_loss', 
                               mode='min', 
-                              patience=10,
+                              patience=50,
                               restore_best_weights=True, 
                               verbose=1
                               )
@@ -106,4 +106,7 @@ acc :  0.10000000149011612
 [튜닝 후]
 loss :  0.0570102222263813
 acc :  0.5834000110626221
+
+loss :  0.05636516585946083
+acc :  0.5734999775886536
 '''

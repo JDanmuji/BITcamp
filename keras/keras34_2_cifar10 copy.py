@@ -45,5 +45,15 @@ model.fit(x_train, y_train, epochs=250,
 result = model.evaluate(x_test, y_test)
 print('loss : ', result[0])
 print('acc : ', result[1])
-# loss :  1.8510323762893677
-# acc :  0.3361000120639801
+
+
+
+'''
+[튜닝 전]
+loss :  1.8510323762893677
+acc :  0.3361000120639801
+
+[튜닝 후]
+loss :  0.05044779181480408
+acc :  0.6367999911308289
+'''

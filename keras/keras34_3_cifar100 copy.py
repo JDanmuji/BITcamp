@@ -35,7 +35,7 @@ model.add(Dense(100, activation = 'softmax'))
 #3. 컴파일, 훈련
 model.compile(loss = 'sparse_categorical_crossentropy', optimizer='adam',
               metrics = ['acc'])
-es = EarlyStopping(monitor='val_loss', mode='min',patience=20,
+es = EarlyStopping(monitor='val_loss', mode='min',patience=50,
                   restore_best_weights=True,
                    verbose=1)
 date = datetime.datetime.now()
@@ -48,7 +48,7 @@ mcp = ModelCheckpoint(monitor='val_loss', mode = 'auto', verbose = 1,
                       filepath = filepath + 'k34_03_' + date +'_'+ filename)
 model.fit(x_train, y_train, epochs=100,
             verbose= 1,
-            batch_size=250,
+            batch_size=128,
             validation_split=0.2,
             callbacks=[es,mcp])
 #4. 평가, 예측
@@ -60,4 +60,7 @@ print('acc : ', result[1])
 '''
 loss :  2.4501538276672363
 acc :  0.38760000467300415
+
+loss :  2.471705913543701
+acc :  0.3944000005722046
 '''
