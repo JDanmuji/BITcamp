@@ -2,6 +2,7 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, SimpleRNN, LSTM, GRU
 
+
 # 1. 데이터
 x = np.array([[1,2,3], [2,3,4], [3,4,5], 
               [4,5,6], [5,6,7], [6,7,8],
@@ -20,16 +21,15 @@ x = x.reshape(13, 3, 1)
 print(x.shape)  #(7, 3, 1)
 
 # 2. 모델 구성 rnn = 2차원, rnn의 장기의존성을 해결하기 위해 LSTM이 탄생
-model = Sequential()
-model.add(GRU(units=128, input_shape=(3, 1))) # (N, 3, 1) -> ([batch, timesteps, feature])
-model.add(Dense(64, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(4))
+# LSTM 은 3차원으로 받고 output 할 때는 2차원으로 되기 때문에
+# return_sequences를 True 해줘서 다차원 출력 가능(default : false)
+model = Sequential() # (N, 3, 1) 
+model.add(LSTM(units=64, input_shape=(3, 1), return_sequences=True)) #(n, 64)
+model.add(LSTM(32))
+model.add(Dense(16, activation='relu'))
 model.add(Dense(1))
 
-# GRU
-# 3 * (10 * (10 + 1 + 1 + 1)) = 390
-# 3 * ( units * (feature + bias + units + 1) )= params
+
 
 #3. 컴파일 훈련
 model.compile(loss='mse', optimizer='adam')
@@ -38,7 +38,7 @@ model.fit(x, y, epochs=500, batch_size=1)
 # 4. 평가, 예측
 loss = model.evaluate(x, y)
 print('loss : ', loss)
-y_pred = np.array([50, 60, 70]).reshape(1, 3, 1)
-result = model.predict(y_pred)
+x_pred = x_prdict.reshape(1, 3, 1)
+result = model.predict(x_pred)
 
 print('[50, 60, 70]의 결과 : ',  result)
