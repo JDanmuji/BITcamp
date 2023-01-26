@@ -27,7 +27,13 @@ print(x.shape)  #(7, 3, 1)
 
 # 2. 모델 구성 rnn = 2차원
 model = Sequential()
-model.add(SimpleRNN(unit =64, input_shape=(3, 1), activation='relu')) # (N, 3, 1) -> ([batch, timesteps, feature])
+#model.add(SimpleRNN(units=64, 
+#                    input_shape=(3, 1))) # (N, 3, 1) -> ([batch, timesteps, feature])
+
+#SimpleRNN : 바닐라 RNN, 잘 안씀
+model.add(SimpleRNN(units=64, 
+                    input_length=3, 
+                    input_dim=1)) # 가독성
 model.add(Dense(32, activation='relu'))
 model.add(Dense(24, activation='relu'))
 model.add(Dense(16, activation='relu'))
