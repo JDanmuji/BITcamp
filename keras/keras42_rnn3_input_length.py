@@ -27,7 +27,7 @@ print(x.shape)  #(7, 3, 1)
 
 # 2. 모델 구성 rnn = 2차원
 model = Sequential()
-model.add(SimpleRNN(64, input_shape=(3, 1), activation='relu'))
+model.add(SimpleRNN(unit =64, input_shape=(3, 1), activation='relu')) # (N, 3, 1) -> ([batch, timesteps, feature])
 model.add(Dense(32, activation='relu'))
 model.add(Dense(24, activation='relu'))
 model.add(Dense(16, activation='relu'))
@@ -35,6 +35,12 @@ model.add(Dense(8, activation='relu'))
 model.add(Dense(4, activation='relu'))
 model.add(Dense(2, activation='relu'))
 model.add(Dense(1))
+
+
+# 64 * (64 + 1 + 1) = 4224
+# units * (feature + bias + units) = params
+
+model.summary()
 
 #3. 컴파일 훈련
 model.compile(loss='mse', optimizer='adam')

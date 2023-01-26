@@ -19,15 +19,13 @@ y = np.array([4, 5, 6, 7, 8, 9, 10])
 
 
 print(x.shape, y.shape) # (7, 3) (7,)
-
-x = x.reshape(7, 3, 1)      # -> [[[1], [2], [3]],
-                            #     [[2], [3], [4]],  ... ]
  
 print(x.shape)  #(7, 3, 1)
 
 # 2. 모델 구성 rnn = 2차원
 model = Sequential()
-model.add(SimpleRNN(64, input_shape=(3, 1), activation='relu'))
+#model.add(SimpleRNN(64, input_shape=(3, 1)))
+model.add(Dense(64, input_shape=(3,), activation='relu'))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(24, activation='relu'))
 model.add(Dense(16, activation='relu'))
