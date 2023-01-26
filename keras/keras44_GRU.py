@@ -1,6 +1,6 @@
 import numpy as np 
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, SimpleRNN, LSTM
+from tensorflow.keras.layers import Dense, SimpleRNN, LSTM, GRU
 
 # 1. 데이터 (ex, 삼성전자 주식 하나로 테스트 한다 가정)
 dataset = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])  #(10, )
@@ -28,7 +28,8 @@ print(x.shape)  #(7, 3, 1)
 # 2. 모델 구성 rnn = 2차원, rnn의 장기의존성을 해결하기 위해 LSTM이 탄생
 model = Sequential()
 #model.add(SimpleRNN(units=10, input_shape=(3, 1))) # (N, 3, 1) -> ([batch, timesteps, feature])
-model.add(LSTM(units=10, input_shape=(3, 1))) # 가독성
+#model.add(LSTM(units=10, input_shape=(3, 1)) # 가독성
+model.add(GRU(units=10, input_shape=(3, 1))) # (N, 3, 1) -> ([batch, timesteps, feature])
 model.add(Dense(32, activation='relu'))
 model.add(Dense(24, activation='relu'))
 model.add(Dense(16, activation='relu'))
@@ -42,8 +43,12 @@ model.add(Dense(1))
 # units * (feature + bias + units) = params
 
 # LSTM
-# 4 * (10 * (10 + 1 + 1)) = 480
-# 4 * (feature + bias + units) = params
+# 4*(10 * (10 + 1 + 1)) = 480
+# 4 * ( units * (feature + bias + units)) = params
+
+# GRU
+# 3 * (10 * (10 + 1 + 1 + 1)) = 390
+# 3 * ( units * (feature + bias + units + 1) )= params
 
 model.summary()
 
