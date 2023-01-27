@@ -108,7 +108,7 @@ y_test = np.argmax(y_test, axis=1) # y_test : y_test 값, (원 핫 인코딩을 
 
 #print( 'y_test(원래값)' , y_test)
 
-acc = accuracy_score(y_test, y_predict) 
+# acc = accuracy_score(y_test, y_predict) 
 
 print(acc)
 

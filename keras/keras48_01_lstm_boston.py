@@ -10,6 +10,9 @@ timesteps = 5
 def split_x(dataset, timesteps) :
     
     aaa = []
+                    # len : 문자열 길이 함수
+    #주어진 데이터 셋의 길이의 원하는 갯수만큼 자르는 for문, 
+    #range의 +1를 하는 이유 : 자르는 개수만큼 +1 를 해주면 총 길이가 나옴
     for i in range(len(dataset) - timesteps + 1) :  # 10 - 5 + 1 =6
         subset = dataset[i : (i + timesteps)] # 0 : 0 + 5
         aaa.append(subset)
