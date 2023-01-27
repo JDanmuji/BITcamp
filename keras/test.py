@@ -1,3 +1,5 @@
+
+#keras47_split2_LSTM 실습
 import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, SimpleRNN, LSTM
