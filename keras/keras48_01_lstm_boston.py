@@ -2,42 +2,34 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, SimpleRNN, LSTM
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.datasets import load_boston
+from sklearn.model_selection import train_test_split
 
 
-a = np.array(range(1, 11))
-timesteps = 5
+dataset = load_boston() 
 
-def split_x(dataset, timesteps) :
-    
-    aaa = []
-                    # len : 문자열 길이 함수
-    #주어진 데이터 셋의 길이의 원하는 갯수만큼 자르는 for문, 
-    #range의 +1를 하는 이유 : 자르는 개수만큼 +1 를 해주면 총 길이가 나옴
-    for i in range(len(dataset) - timesteps + 1) :  # 10 - 5 + 1 =6
-        subset = dataset[i : (i + timesteps)] # 0 : 0 + 5
-        aaa.append(subset)
-    return np.array(aaa)
+x = dataset.data
+y = dataset.target
 
-bbb = split_x(a, timesteps)
+x_train, x_test, y_train, y_test = train_test_split(x, y,
+    test_size=0.2, shuffle=True, random_state=1
+)
 
-# print(bbb)
-# print(bbb.shape)
 
-x = bbb[:, :-1]
-y = bbb[:, -1]
+scaler = MinMaxScaler()
+x_train = scaler.fit_transform(x_train)
+x_test = scaler.transform(x_test)
 
-# print(x, y)
 
-print(x.shape, y.shape) #(6, 4) (6,)
+print(x_train.shape, x_test.shape) #(404, 13) (102, 13)
 
-x = x.reshape(6, 4, 1)     
+x_train = x_train.reshape(404, 13, 1, 1)
+x_test = x_test.reshape(102, 13, 1, 1)
 
-# 실습
-# LSTM 모델 구성
-#x_predict = np.array([7, 8, 9, 10])
+print(x_train.shape, x_test.shape) #(404, 13) (102, 13)
 
 model = Sequential()
-model.add(LSTM(units=128, input_shape=(4, 1))) # 가독성
+model.add(LSTM(units=128, input_shape=(13, 1))) # 가독성
 model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(24, activation='relu'))
@@ -50,16 +42,16 @@ model.add(Dense(1))
 
 #3. 컴파일 훈련
 model.compile(loss='mse', optimizer='adam')
-model.fit(x, y, epochs=500, batch_size=1)
+model.fit(x_train, y_train, epochs=500, batch_size=32)
 
 # 4. 평가, 예측
-loss = model.evaluate(x, y)
+loss = model.evaluate(x_test, y_test)
 print('loss : ', loss)
 
-y_pred = np.array([7, 8, 9, 10]).reshape(1, 4, 1)
-result = model.predict(y_pred)
+y_predict = model.predict(x_test)
+result = model.predict(y_predict)
 
-print('[7, 8, 9, 10]의 결과 : ',  result)
+print('reslut 결과 : ',  result)
 
 
 
