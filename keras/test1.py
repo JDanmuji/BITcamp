@@ -1,8 +1,11 @@
+
+#keras47_split2_LSTM 실습
 import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, SimpleRNN, LSTM
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.model_selection import train_test_split
+# 예상 목표 y = [100, 101, 102, 103, 104, 105, 106]
 
 a = np.array(range(1, 101))
 

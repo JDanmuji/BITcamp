@@ -50,18 +50,24 @@ model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 es = EarlyStopping(monitor='loss', mode='min',patience=100,
                   restore_best_weights=True,
                    verbose=1)
+
 filepath = './_save/MCP/'
 filename = '{epoch:04d}-{loss:.4f}.hdf5'
+
 date = datetime.datetime.now()
 date = date.strftime("%m%d_%H%M")
+
 mcp = ModelCheckpoint(monitor='loss', mode = 'auto', verbose = 1,
                         save_best_only=True,
                         filepath = filepath + 'k47_2_' + date +'_'+ filename)
+
 model.fit(x,y, epochs=10000, batch_size=32,
           callbacks=[es,mcp],verbose=1)
+
 # 평가, 예측
 loss = model.evaluate(x,y)
 print(loss)
 y_pred = x_predict.reshape(7,4,1)
 result = model.predict(y_pred)
+
 print('[100, 107]의 결과 : ', result )
