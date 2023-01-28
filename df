@@ -1,0 +1,76 @@
+[33m0990bd2[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{0}: commit: cnn과 dnn방식 비교
+[33mf900614[m HEAD@{1}: reset: moving to HEAD^
+[33m06335e1[m[33m ([m[1;31morigin/main[m[33m)[m HEAD@{2}: commit: cnn방식과 dnn 방식 비교
+[33mf900614[m HEAD@{3}: commit: maxpool, padding 실습
+[33m8cf873d[m HEAD@{4}: commit: test
+[33m5b4d65e[m HEAD@{5}: commit: 커밋 내용 원복 및 전체내용 다시 commit
+[33m3a3799a[m HEAD@{6}: reset: moving to HEAD^
+[33m4a4c738[m HEAD@{7}: commit: cifer dataset을 이용하여 이미지 데이터 처리 실습
+[33m3a3799a[m HEAD@{8}: commit: dropout , mcp, mnist 실습내용 추가
+[33ma290a58[m HEAD@{9}: commit: 실습내용 추가
+[33m201df67[m HEAD@{10}: commit: 함수형 모델 복습 및 model save 기능 실습
+[33m8e9087b[m HEAD@{11}: commit: 내용 정리
+[33ma454534[m HEAD@{12}: commit: 수정내용 commit:
+[33mee810c9[m HEAD@{13}: commit: c:
+[33m1739bed[m HEAD@{14}: commit: Scaler, 함수형 모델 실습 commit
+[33md83cf94[m HEAD@{15}: commit: loss funtion Sparse_categorical_crossentropy , Scaler 실습
+[33m232cc75[m HEAD@{16}: commit: softmax, one-hot encoding 내용 정리
+[33m801c74f[m HEAD@{17}: commit: One-Hot Encoding 3가지 방법 정리
+[33m0615d5b[m HEAD@{18}: commit: activation softmax 실습 내용 추가
+[33meba76cf[m HEAD@{19}: commit: one-hot encoding 실습 내용 추가
+[33m9b7ea61[m HEAD@{20}: commit: 활성함수 sigmoid 및 EarlyStopping 클래스 함수 실습
+[33m585efe9[m HEAD@{21}: commit: overfit 실습, 차트그리기
+[33m572fcc9[m HEAD@{22}: commit: verbose 내용 추가
+[33me35784d[m HEAD@{23}: commit: 과제 실습 내용 추가
+[33m908fa80[m HEAD@{24}: commit: 실습 과제 내용 추가
+[33m92d94d0[m HEAD@{25}: commit: 23-01-06 validation 내용 추가
+[33m7e9550e[m HEAD@{26}: rebase (continue) (finish): returning to refs/heads/main
+[33m7e9550e[m HEAD@{27}: rebase (continue) (pick): kaggle bike submission
+[33m916dc59[m HEAD@{28}: rebase (continue) (pick): cpu, gpu 인터프린터 테스트
+[33mc0e8f65[m HEAD@{29}: rebase (continue) (pick): GPU, CPU로 실행 및 시간 측정
+[33m8b2a032[m HEAD@{30}: rebase (continue) (pick): github 잔디 누락 test
+[33me9d2d0c[m HEAD@{31}: rebase (continue) (edit): dacon 따릉이 데이터 제출하기
+[33mb42c7cd[m HEAD@{32}: rebase (continue) (edit): pandas csv 사용
+[33m1501b6f[m HEAD@{33}: rebase (continue) (edit): ddarung 데이터 추가
+[33m51b944c[m HEAD@{34}: rebase (continue) (edit): 내용추가
+[33mbd9ddb2[m HEAD@{35}: rebase (continue) (edit): datasets 테스트 결과 내용 추가
+[33md457085[m HEAD@{36}: rebase (continue) (edit): 함수형 모델 실습 내용 추가
+[33m3248e6e[m HEAD@{37}: rebase (continue) (edit): mse, mae, rmse, r2 내용 추가
+[33mc1e62c9[m HEAD@{38}: rebase (continue) (edit): 수정
+[33m6367030[m HEAD@{39}: rebase (continue) (edit): 데이터 시각화 실습 내용 추가
+[33m03cfebe[m HEAD@{40}: rebase (continue) (edit): 사이킷런 내용 추가
+[33m2757113[m HEAD@{41}: rebase (continue) (edit): 파이썬 슬라이딩, 사이킷런 실습 내용 추가
+[33ma0d2da2[m HEAD@{42}: rebase (continue) (edit): train data, test data 내용 추가 및 스칼라 벡터 문제 테스트
+[33mbeca626[m HEAD@{43}: rebase (continue) (edit): 2023-01-03_숙제 및 여러 2차원 행렬을 가지고 예측하기
+[33mcc67ebf[m HEAD@{44}: rebase (continue) (edit): 인공지능 행렬
+[33m7dd63a1[m HEAD@{45}: rebase (continue) (edit): 인공지능 심층신경망 추가
+[33m9ee3991[m HEAD@{46}: commit (amend): keras 사용 및 중간 정리
+[33m2920386[m HEAD@{47}: rebase (edit): keras 사용 및 중간 정리
+[33m17200c7[m HEAD@{48}: rebase (start): checkout f0bdf58^
+[33mf2018c2[m HEAD@{49}: rebase (abort): updating HEAD
+[33mf2018c2[m HEAD@{50}: rebase (abort): updating HEAD
+[33mf2018c2[m HEAD@{51}: filter-branch: rewrite
+[33meb44bf4[m HEAD@{52}: commit: kaggle bike submission
+[33m1fd763a[m HEAD@{53}: commit: cpu, gpu 인터프린터 테스트
+[33mf62acd2[m HEAD@{54}: commit: GPU, CPU로 실행 및 시간 측정
+[33m0842a2f[m HEAD@{55}: commit: github 잔디 누락 test
+[33m89013b2[m HEAD@{56}: commit: dacon 따릉이 데이터 제출하기
+[33me2ef624[m HEAD@{57}: commit: pandas csv 사용
+[33m479695d[m HEAD@{58}: commit: ddarung 데이터 추가
+[33m4e2c06d[m HEAD@{59}: commit: 내용추가
+[33mf9e2046[m HEAD@{60}: commit: datasets 테스트 결과 내용 추가
+[33m3e896fb[m HEAD@{61}: commit: 함수형 모델 실습 내용 추가
+[33m0e49bdd[m HEAD@{62}: commit: mse, mae, rmse, r2 내용 추가
+[33m45cd660[m[33m ([m[1;31morigin/master[m[33m)[m HEAD@{63}: checkout: moving from master to main
+[33m45cd660[m[33m ([m[1;31morigin/master[m[33m)[m HEAD@{64}: checkout: moving from master to master
+[33m45cd660[m[33m ([m[1;31morigin/master[m[33m)[m HEAD@{65}: commit: 수정
+[33me21ad4d[m HEAD@{66}: commit: 데이터 시각화 실습 내용 추가
+[33m8e27328[m HEAD@{67}: commit: 사이킷런 내용 추가
+[33m6698dcf[m HEAD@{68}: commit: 파이썬 슬라이딩, 사이킷런 실습 내용 추가
+[33m59df506[m HEAD@{69}: commit: train data, test data 내용 추가 및 스칼라 벡터 문제 테스트
+[33m821ef6e[m HEAD@{70}: commit: 2023-01-03_숙제 및 여러 2차원 행렬을 가지고 예측하기
+[33m070e710[m HEAD@{71}: commit: 인공지능 행렬
+[33m4b90d9f[m HEAD@{72}: commit: 인공지능 심층신경망 추가
+[33mf0bdf58[m HEAD@{73}: commit: keras 사용 및 중간 정리
+[33m17200c7[m HEAD@{74}: commit: 2022-12-20, 코드 복습 및 모르는 부분 정의 체크, 숙제
+[33me472964[m HEAD@{75}: commit (initial): 2022-12-30, 인공지능 첫 수업
