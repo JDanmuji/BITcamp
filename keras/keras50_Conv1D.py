@@ -59,6 +59,9 @@ mcp = ModelCheckpoint(monitor='loss', mode = 'auto', verbose = 1,
                         save_best_only=True,
                         filepath = filepath + 'k47_2_' + date +'_'+ filename)
 
+print(x.shape, type)
+print(y.shape)
+
 model.fit(x,y, epochs=10000, batch_size=32,
           callbacks=[es],verbose=1)
 

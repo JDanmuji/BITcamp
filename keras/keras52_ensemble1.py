@@ -52,10 +52,17 @@ model = Model(inputs=[input1, input2], outputs=last_output)
 model.summary()
 
 #3. 컴파일, 훈련
+print(x1_train.shape)
+print(x2_train.shape)
+
+print(y_train.shape)
+
+
 model.compile(loss='mse', optimizer='adam')
 model.fit([x1_train, x2_train], y_train, epochs=500, batch_size=8)
 
 #4. 평가, 예측
+
 loss = model.evaluate([x1_test, x2_test], y_test)
 
 print('loss : ', loss)
