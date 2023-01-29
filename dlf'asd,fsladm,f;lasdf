@@ -1,0 +1,11 @@
+[33m4e719ee[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{0}: reset: moving to HEAD^
+[33m008d415[m HEAD@{1}: commit: test
+[33m4e719ee[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{2}: commit (merge): tset
+[33m4a5d697[m HEAD@{3}: commit: test
+[33ma0cdb85[m HEAD@{4}: reset: moving to HEAD^
+[33m63d470d[m HEAD@{5}: commit (merge): git push test
+[33ma0cdb85[m HEAD@{6}: commit (merge): test
+[33mdba631a[m HEAD@{7}: reset: moving to HEAD
+[33mdba631a[m HEAD@{8}: reset: moving to HEAD
+[33mdba631a[m HEAD@{9}: commit: DDRUNG 튜닝
+[33m908fa80[m HEAD@{10}: initial pull

@@ -1,15 +1,45 @@
 import numpy as np 
-
-x1_datasets = np.array([range(100),range(301, 401)]).transpose()
-
-print(x1_datasets.shape) #(100, 2)     # 삼성전자 시가, 고가 || 데이터가 100, 2개의 컬럼
-
-x2_datasets = np.array([range(101, 201), range(411, 511), range(150, 250)]).transpose()
-
-print(x2_datasets.shape) #(100, 3)     # 아모레 시가, 고가, 종가 || 데이터가 100, 3개의 컬럼
+import pandas as pd
 
 
-y = np.array(range(2001, 2101)) #(100, ) #삼성전자의 하루 뒤 종가
+# 1. 데이터
+path = './_data/ensemble/'                    
+                              
+                           
+                              
+                                            #index 컬럼은 0번째
+x1_datasets = pd.read_csv(path + 'samsung.csv', encoding='cp949')   # [715 rows x 9 columns]
+x2_datasets = pd.read_csv(path + 'amore.csv', encoding='cp949')     #[1459 rows x 10 columns]
+
+
+
+# 결측치 처리 
+# 1. 선형 방법을 이용하여 결측치
+# train_csv = train_csv.interpolate(method='linear', limit_direction='forward')
+
+# x = train_csv.drop(['count'], axis=1) # 10개 중 count 컬럼을 제외한 나머지 9개만 inputing
+# y = train_csv['count']
+
+
+x1_datasets = x1_datasets[['일자', '시가', '고가', '저가', '종가']]
+x2_datasets = x2_datasets[['일자', '시가', '고가', '저가', '종가']]
+
+y = x1_datasets[['시가']]
+x2_datasets = x2_datasets[0 : 1980]
+
+
+print(x1_datasets.shape) #(7, 1980)
+     
+print(x2_datasets.shape) #(7, 1980)
+
+
+y = y[0:1980]
+
+print(y) #(2220, 7)
+
+x1_datasets = x1_datasets.values
+x2_datasets = x2_datasets.values
+y = y.values
 
 from sklearn.model_selection import train_test_split
 
@@ -26,7 +56,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, Input
 
 #2-1. 모델 1
-input1 = Input(shape=(2,))
+input1 = Input(shape=(5,))
 dense1 = Dense(11, activation='relu', name='ds11') (input1)
 dense2 = Dense(12, activation='relu', name='ds12') (dense1)
 dense3 = Dense(13, activation='relu', name='ds13') (dense2)
@@ -34,7 +64,7 @@ output1 = Dense(14, activation='relu', name='ds14') (dense3)
 
 
 #2-2. 모델 2
-input2 = Input(shape=(3,))
+input2 = Input(shape=(5,))
 dense21 = Dense(11, activation='linear', name='ds21') (input2)
 dense22 = Dense(12, activation='linear', name='ds22') (dense21)
 output2 = Dense(13, activation='linear', name='ds23') (dense22)
@@ -53,13 +83,11 @@ model.summary()
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
+
+
 model.fit([x1_train, x2_train], y_train, epochs=500, batch_size=8)
 
 #4. 평가, 예측
 loss = model.evaluate([x1_test, x2_test], y_test)
 
-print('loss : ', loss)
-
-y_predict = model.predict([x1_test, x2_test])
-#result = model.predict(y_predict)
-print('result : ',y_predict)
+print('loss : ',loss)

@@ -15,10 +15,6 @@ print(x.shape, y.shape)
 print(np.unique(y, return_counts=True))
 
 print(y)
-<<<<<<< HEAD
-
-=======
->>>>>>> 261465fc58f5147b6ad239e1e400903332b54d2c
 
 y = to_categorical(y)
 print('===============================================================')
