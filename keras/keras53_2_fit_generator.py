@@ -56,7 +56,7 @@ model.add(Dense(1, activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
 hist = model.fit_generator(xy_train, 
                     steps_per_epoch=16, 
-                    epochs=100, 
+                    epochs=10, 
                     validation_data=xy_test, 
                     validation_steps=4,
                     )
@@ -74,6 +74,18 @@ print('loss : ', loss[-1])
 print('val_loss : ', val_loss[-1])
 
 
+
 # 그림 그리삼
 
+batch = xy_train.next()
 
+print(batch)
+print(len(batch)) #2
+print(type(batch)) #tuple
+
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10, 10))
+for i in range(4) :
+    plt.subplot(2, 2, i+1)
+    plt.imshow(batch[0][i])
+plt.show()
