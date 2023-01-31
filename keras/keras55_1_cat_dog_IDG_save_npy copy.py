@@ -1,129 +1,108 @@
-import numpy as np
-import pandas as pd 
-from keras.preprocessing.image import ImageDataGenerator, load_img
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
-import random
 import os
-from keras.callbacks import EarlyStopping, ReduceLROnPlateau
+import random
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import cv2
+import matplotlib.pyplot as plt
+from skimage.transform import resize
 
-print(os.listdir("C:/_data/dogs-vs-cats/"))
+path = 'C:/_data/dogs-vs-cats1/train/'
+os.listdir(path)[:5]
 
-FAST_RUN = True
-IMAGE_WIDTH=128
-IMAGE_HEIGHT=128
-IMAGE_SIZE=(IMAGE_WIDTH, IMAGE_HEIGHT)
-IMAGE_CHANNELS=3
+full_name = os.listdir(path)
+labels = [each.split('.')[0] for each in full_name]
+file_id = [each.split('.')[1] for each in full_name]
 
-filenames = os.listdir("C:/_data/dogs-vs-cats/train/train/")
-categories = []
-for filename in filenames:
-    category = filename.split('.')[0]
-    if category == 'dog':
-        categories.append(1)
-    else:
-        categories.append(0)
+print(set(labels), len(file_id))
 
+sample = random.choice(full_name)
+image = mpimg.imread(path + sample)
+print(image.shape)
+sample = random.choice(full_name)
+image = mpimg.imread(path + sample)
+print(image.shape)
 
-df = pd.DataFrame({
-    'filename': filenames,
-    'category': categories
-})
+#(225, 299, 3)       
+#(375, 499, 3)  
 
-for filename in filenames:
-    category = filename.split('.')[0]
-    if category == 'dog':
-        categories.append(1)
-    else:
-        categories.append(0)
+from skimage.color import rgb2gray
+import numpy as np
+
+images = []
+bar_total = full_name
+for file in bar_total:
+    image = mpimg.imread(path + file)
+    images.append(resize(image, (128, 128, 3)))
+images = np.array(images)
 
 
-from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, BatchNormalization
+from sklearn.preprocessing import LabelEncoder
 
-model = Sequential()
+encoder = LabelEncoder()
+encoder.fit(labels)
+labels_encoded = encoder.transform(labels)
+labels_encoded[:3], encoder.classes_
 
-model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS)))
-model.add(BatchNormalization())
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
+from sklearn.model_selection import train_test_split
 
-model.add(Conv2D(64, (3, 3), activation='relu'))
-model.add(BatchNormalization())
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
+X_train, X_test, y_train, y_test = train_test_split(images, labels_encoded, test_size = 0.2, random_state = 13, stratify = labels_encoded)
 
-model.add(Conv2D(128, (3, 3), activation='relu'))
-model.add(BatchNormalization())
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
+X_train.shape, X_test.shape
 
-model.add(Flatten())
-model.add(Dense(512, activation='relu'))
-model.add(BatchNormalization())
-model.add(Dropout(0.5))
-model.add(Dense(2, activation='softmax')) # 2 because we have cat and dog classes
+from tensorflow.keras import layers, models
 
-model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+model = models.Sequential([
+    layers.Conv2D(32, (3, 3), activation='relu', input_shape = (128, 128, 3)),
+    layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    layers.Dropout(0.25),
+    
+    layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
+    layers.MaxPooling2D(pool_size=(2, 2)),
+    layers.Dropout(0.25),
+    
+    layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
+    layers.MaxPooling2D(pool_size=(2, 2)),
+    layers.Dropout(0.25),
+    
+    layers.Flatten(),
+    layers.Dense(512, activation='relu'),
+    layers.Dropout(0.25),
+    layers.Dense(2, activation='softmax')
+])
 
 model.summary()
 
-earlystop = EarlyStopping(patience=10)
-
-learning_rate_reduction = ReduceLROnPlateau(monitor='val_acc', 
-                                            patience=2, 
-                                            verbose=1, 
-                                            factor=0.5, 
-                                            min_lr=0.00001)
-
-callbacks = [earlystop, learning_rate_reduction]
-
-df["category"] = df["category"].replace({0: 'cat', 1: 'dog'}) 
-
-print(df)
-print(df["category"])
-
-# train_df, validate_df = train_test_split(df, test_size=0.20, random_state=42)
-# train_df = train_df.reset_index(drop=True)
-# validate_df = validate_df.reset_index(drop=True)
+import time
+model.compile(
+    optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 
-df['category'].value_counts().plot.bar()
-#validate_df['category'].value_counts().plot.bar()
+start_time = time.time()
+hist = model.fit(X_train.reshape(20000, 128, 128, 3), y_train, epochs = 5, verbose=1, validation_data= (X_test.reshape(5000, 128,128,3), y_test))
 
-total_df = df.shape[0]
-#total_validate = validate_df.shape[0]
-batch_size=15
+print(f'Fit Time : {time.time() - start_time}')
 
+score = model.evaluate(X_test, y_test)
+print(f'Test Loss : {score[0]}')
+print(f'Test Accuracy  : {score[1]}')
 
-
-train_datagen = ImageDataGenerator(
-    rescale=1./255,
-   
-)
-
-print(train_datagen)
-
-train_datagen = train_datagen.flow_from_dataframe(
-    df, 
-    "C:/_data/dogs-vs-cats/train/train/", 
-    x_col='filename',
-    y_col='category',
-    target_size=IMAGE_SIZE,
-    class_mode='categorical',
-    batch_size=batch_size
-)
+path = './_save/'
 
 
-print(train_datagen)
-print(train_datagen[0][0])
-print(train_datagen[0][1])
-
-np.save('C:/_data/dogs-vs-cats/train/cats/train.npy', arr=train_datagen[0][0])
-np.save('C:/_data/dogs-vs-cats/train/dogs/train.npy', arr=train_datagen[0][1])
-# #np.save('./_data/brain/brain_xy_train.npy', arr=xy_train[0])
-
-# np.save('E:/_data/dogs-vs-cats/dogs_vs_cats_x_test.py', arr=xy_test[0][0])
-# np.save('E:/_data/dogs-vs-cats/dogs_vs_cats_y_test.py', arr=xy_test[0][1])
+model.save(path + 'cat_dog_model1.h5') 
 
 
+import cv2
+import matplotlib.pyplot as plt
+
+image_bgr = cv2.imread("C:/Users/bitcamp/Desktop/dog/cat.jpg")
+test_image = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
+test_image = resize(test_image, (128, 128, 3))
+plt.imshow(test_image)
+plt.title('Cat')
+plt.show()
+
+if np.argmax(model.predict(test_image.reshape(1, 128, 128, 3))) == 0:
+    print('Cat')
+else :
+    print('Dog')

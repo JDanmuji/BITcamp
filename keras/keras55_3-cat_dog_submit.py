@@ -7,14 +7,15 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from keras import Sequential
 from keras.layers import Dense,MaxPooling2D,Conv2D,Flatten,Dropout
 from keras.models import load_model
+from skimage.transform import resize
 
 
 
-imgFile = 'C:/Users/bitcamp/Desktop/dog/dog.jpg'
+imgFile = 'C:/Users/bitcamp/Desktop/dog/cat.jpg'
 
 im = cv2.imread(imgFile) #사진 읽어들이기
 im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB) #색공간 변환
-im = cv2.resize(im, (150,150)) #사이즈 조정
+im = resize(im, (128,128,3)) #사이즈 조정
 
 #이미지 출력
 
@@ -31,7 +32,7 @@ from keras.layers import Dense
 in_size = 100*100*3 
 
 #출력 데이터 크기 : 10개의 카테고리
-num_classes=7
+num_classes=2
 
 print(im.shape)
 model = Sequential()
@@ -41,12 +42,12 @@ model.add(Dense(512, activation='relu', input_shape=(in_size,)))
 model.add(Dense(num_classes,activation='softmax'))
 
 path = './_save/'
-model = load_model(path + 'cat_dog_moedl.h5')
+model = load_model(path + 'cat_dog_model1.h5')
 
 labels = ["cat", "dog"]
 
 
-r = model.predict(im, batch_size=32, verbose=1)
+r = model.predict(im.reshape(1, 128, 128, 3))
 res = r[0]
 
 for i, acc in enumerate(res) :
