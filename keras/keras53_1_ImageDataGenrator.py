@@ -1,5 +1,7 @@
 import numpy as np
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+#keras53 : 이미지를 학습시는 방법 들
+
 
 # 이미지를 변환하고 증폭시키는 역할
 xy_train = ImageDataGenerator(
