@@ -1,111 +1,127 @@
 import os
-import numpy as np
-import tensorflow as tf
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D
-from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
- 
- 
-path_dir1 = 'C:/_data/rps/rock/'
-path_dir2 = 'C:/_data/rps/paper/'
-path_dir3 = 'C:/_data/rps/scissors/'
- 
-file_list1 = os.listdir(path_dir1) # path에 존재하는 파일 목록 가져오기
-file_list2 = os.listdir(path_dir2)
-file_list3 = os.listdir(path_dir3)
- 
- 
-#%% train용 이미지 준비
-num = 0;
-train_img = np.float32(np.zeros((2520, 224, 224, 3))) # 
-train_label = np.float64(np.zeros((2520, 1)))
- 
-print(len(file_list1))
-print(len(file_list2))
-print(len(file_list3))
-print(len(train_img))
-print(len(train_label))
+import random
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import cv2
+import matplotlib.pyplot as plt
+from skimage.transform import resize
 
- 
-for img_name in file_list1:
-    img_path = path_dir1+img_name
-    img = load_img(img_path, target_size=(224, 224))
+path = 'C:/_data/rps/'
+
+
+full_rock_name = os.listdir(path + 'rock')
+labels = [each.split('0')[0] for each in full_rock_name]
+
+full_scissors_name = os.listdir(path + 'scissors')
+labels += [each.split('0')[0] for each in full_scissors_name]
+
+full_paper_name = os.listdir(path + 'paper')
+labels += [each.split('0')[0] for each in full_paper_name]
+
+print(set(labels))
+
+print(labels)
+
+#(225, 299, 3)       
+#(375, 499, 3)  
+
+full_name = os.listdir(path)
+
+from skimage.color import rgb2gray
+import numpy as np
+
+images = []
+images1 = []
+images2 = []
+images3 = []
+
+bar_total = full_rock_name
+for file in bar_total:
+    image = mpimg.imread(path + 'rock/' + file)
+    images1.append(resize(image, (128, 128, 3)))
+images = np.array(images1)
+
+bar_total = full_scissors_name
+for file in bar_total:
+    image = mpimg.imread(path + 'scissors/' + file)
+    images2.append(resize(image, (128, 128, 3)))
+images += np.array(images2)
+
+
+bar_total = full_paper_name
+for file in bar_total:
+    image = mpimg.imread(path+ 'paper/' + file)
+    images3.append(resize(image, (128, 128, 3)))
+images += np.array(images3)
+
+
+from sklearn.preprocessing import LabelEncoder
+
+encoder = LabelEncoder()
+encoder.fit(labels)
+labels_encoded = encoder.transform(labels)
+labels_encoded[:3], encoder.classes_
+
+from sklearn.model_selection import train_test_split
+
+print(images.shape)
+print(labels_encoded.shape)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    images, labels_encoded, test_size = 0.2, random_state = 13, stratify = labels_encoded
+)
+
+X_train.shape, X_test.shape
+
+
+samples = random.choices(population = range(0,20000),k=8)
+
+plt.figure(figsize = (14,12))
+for idx, n in enumerate(samples):
+    plt.subplot(2,4, idx+1)
+    plt.imshow(X_train[n], cmap = 'Greys', interpolation = 'nearest')
+    plt.title(y_train[n])
+
+plt.tight_layout()
+plt.show()
+
+
+from tensorflow.keras import layers, models
+
+model = models.Sequential([
+    layers.Conv2D(32, (3, 3), activation='relu', input_shape = (128, 128, 3)),
+    layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    layers.Dropout(0.25),
     
-    x = img_to_array(img)
-    x = np.expand_dims(x, axis=0)
-    x = preprocess_input(x)
-    print(x)
-    train_img[num, :, :, :] = x
+    layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
+    layers.MaxPooling2D(pool_size=(2, 2)),
+    layers.Dropout(0.25),
     
-    train_label[num] = 0 # rock
-    num = num + 1
- 
-for img_name in file_list2:
-    img_path = path_dir2+img_name
-    img = load_img(img_path, target_size=(224, 224))
+    layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
+    layers.MaxPooling2D(pool_size=(2, 2)),
+    layers.Dropout(0.25),
     
-    x = img_to_array(img)
-    x = np.expand_dims(x, axis=0)
-    x = preprocess_input(x)
-    train_img[num, :, :, :] = x
-    
-    train_label[num] = 1 # paper
-    num = num + 1
- 
-for img_name in file_list3:
-    img_path = path_dir3+img_name
-    img = load_img(img_path, target_size=(224, 224))
-    
-    x = img_to_array(img)
-    x = np.expand_dims(x, axis=0)
-    x = preprocess_input(x)
-    train_img[num, :, :, :] = x
-    
-    train_label[num] = 2 # scissors
-    num = num + 1
- 
- 
-# 이미지 섞기
-     
-n_elem = train_label.shape[0]
-indices = np.random.choice(n_elem, size=n_elem, replace=False)
- 
-train_label = train_label[indices]
-train_img = train_img[indices]
- 
-#%% 
-# create the base pre-trained model
-IMG_SHAPE = (224, 224, 3)
- 
-base_model = ResNet50(input_shape=IMG_SHAPE, weights='imagenet', include_top=False)
-base_model.trainable = False
-base_model.summary()
-print("Number of layers in the base model: ", len(base_model.layers))
- 
-GAP_layer = GlobalAveragePooling2D()
-dense_layer = Dense(3, activation=tf.nn.softmax)
- 
-model = Sequential([
-        base_model,
-        GAP_layer,
-        dense_layer
-        ])
- 
-base_learning_rate = 0.001
-model.compile(optimizer=tf.keras.optimizers.RMSprop(lr=base_learning_rate),
-              loss='sparse_categorical_crossentropy',
-              metrics=['accuracy'])
+    layers.Flatten(),
+    layers.Dense(512, activation='relu'),
+    layers.Dropout(0.25),
+    layers.Dense(3, activation='softmax')
+])
 
 model.summary()
- 
-path = './_save/'
 
-model.fit(train_img, train_label, epochs=5)
- 
-# save model
-model.save(path + 'rps_model.h5')  
+import time
+model.compile(
+    optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
- 
-print("Saved model to disk")  
- 
+
+start_time = time.time()
+hist = model.fit(X_train.reshape(20000, 128, 128, 3), y_train, epochs = 5, verbose=1, validation_data= (X_test.reshape(5000, 128,128,3), y_test))
+
+print(f'Fit Time : {time.time() - start_time}')
+
+score = model.evaluate(X_test, y_test)
+print(f'Test Loss : {score[0]}')
+print(f'Test Accuracy  : {score[1]}')
+
+
+model.save(path + 'cat_dog_model1.h5')  
