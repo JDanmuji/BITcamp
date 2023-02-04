@@ -3,57 +3,74 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from keras import Sequential
 from keras.layers import Dense,MaxPooling2D,Conv2D,Flatten,Dropout
 
-train_set_dir = 'C:/_data/dogs-vs-cats/train/train_set'
-valid_set_dir = 'C:/_data/dogs-vs-cats/train/valid_set'
-test_set_dir = 'C:/_data/dogs-vs-cats/train/test_set'
-
-
-train_datagen = ImageDataGenerator(
-    rescale=1./255,
-    rotation_range=40,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True,
-    fill_mode='nearest'
+# 이미지를 변환하고 증폭시키는 역할
+xy_train = ImageDataGenerator(
+    rescale=1./255, # 원본을 수치화 한 것만 가지고 있음
 )
 
-valid_datagen = ImageDataGenerator(
-    rescale=1./255
+xy_test= ImageDataGenerator(
+      rescale=1./255
 )
+                        #파일
+xy_train = xy_train.flow_from_directory( # 안에 있는 ad, normal 은 0, 1로 인식
+    'C:/_data/dogs-vs-cats/train/', 
+    target_size=(200,200), #크기에 상관없이 200, 200 을 압축
+    batch_size=100000, # 모든 데이터를 가지고 오기
+    class_mode='categorical', #수치
+    color_mode='grayscale',
+    shuffle=True
+    # Found 160 images belonging to 2 classes.
+) 
+# 
 
-test_datagen = ImageDataGenerator(
-    rescale=1./255
-)
- 
-train_generator = train_datagen.flow_from_directory(
-    train_set_dir,
-    target_size=(150,150),
-    batch_size=32,
-    class_mode='binary'
-)
+#                      #파일
+# xy_test = xy_test.flow_from_directory( # 안에 있는 ad, normal 은 0, 1로 인식
+#     'C:/_data/dogs-vs-cats/test1/', 
+#     target_size=(200,200), #크기에 상관없이 200, 200 을 압축
+#     batch_size=100000,  #batch_size를 최대한 늘려서 데이터를 한번에 뽑아낼 수 있음
+#     class_mode='categorical', #수치
+#     color_mode='grayscale',
+#     shuffle=True
+#     # Found 120 images belonging to 2 classes.
+# ) 
 
-valid_generator = valid_datagen.flow_from_directory(
-    valid_set_dir,
-    target_size=(150,150),
-    batch_size=32,
-    class_mode='binary'
-)
+print(xy_train)
 
-test_generator = test_datagen.flow_from_directory(
-    test_set_dir,
-    target_size=(150,150),
-    batch_size=32,
-    class_mode='binary'
-)
- 
-train_step = train_generator.n // 32
-valid_step = valid_generator.n // 32
-test_step = test_generator.n // 32
+
+print(xy_train[0][1])
+print(xy_train[0][0].shape)
+print(xy_train[0][1].shape)
+
+# np.save('E:/_data/dogs-vs-cats/dogs_vs_cats_x_train.npy', arr=xy_train[0][0])
+# np.save('E:/_data/dogs-vs-cats/dogs_vs_cats_y_train.npy', arr=xy_train[0][1])
+# #np.save('./_data/brain/brain_xy_train.npy', arr=xy_train[0])
+
+# np.save('E:/_data/dogs-vs-cats/dogs_vs_cats_x_test.py', arr=xy_test[0][0])
+# np.save('E:/_data/dogs-vs-cats/dogs_vs_cats_y_test.py', arr=xy_test[0][1])
+
+
+
+x_train = np.load('E:/_data/dogs-vs-cats/dogs_vs_cats_x_train.npy')
+y_train = np.load('E:/_data/dogs-vs-cats/dogs_vs_cats_y_train.npy')
+x_test = np.load('E:/_data/dogs-vs-cats/dogs_vs_cats_x_test.npy')
+y_test = np.load('E:/_data/dogs-vs-cats/dogs_vs_cats_y_test.npy')
+
+print(x_train.shape, x_test.shape) 
+# binary
+#(25000, 200, 200, 1) (25000, 1)
+
+print(y_train.shape, y_test.shape) 
+# binary
+#(25000, 1) (12500, 1)
+
+print(x_train[100])
+
+#2. 모델구성
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Conv2D, Flatten
 
 model=Sequential()
-model.add(Conv2D(kernel_size=(3,3),filters=3,input_shape=(150, 150, 1),activation="relu"))
+model.add(Conv2D(kernel_size=(3,3),filters=3,input_shape=(200,200,1),activation="relu"))
 model.add(Conv2D(kernel_size=(3,3),filters=10,activation="relu",padding="same"))
 model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
 model.add(Conv2D(kernel_size=(3,3),filters=3,activation="relu"))
@@ -66,34 +83,47 @@ model.add(Dense(100,activation="sigmoid"))
 model.add(Dense(1,activation="sigmoid"))
 model.summary()
 model.compile(optimizer="adadelta",loss="binary_crossentropy",metrics=["accuracy"])
- 
-model.summary()
-
-model.compile(optimizer='adam',
-             loss='binary_crossentropy',
-              metrics=['acc'])
-              
-model.fit_generator(train_generator,
-                   steps_per_epoch=train_step,
-                   epochs=10,
-                   validation_data=valid_generator,
-                   validation_steps=valid_step)
-
-test_loss, test_acc = model.evaluate_generator(test_generator,
-                                               steps=test_step,
-                                               workers=4)
 
 
-print(test_loss)
-print(test_acc)
+# 3. 컴파일, 훈련
+#model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
 
-model.summary()
+                # 전체 x 값      # 전체 y 값
+hist = model.fit(x_train, y_train,
+                    epochs=50, 
+                    validation_data=(x_test, y_test), 
+                    validation_split=0.3,
+                    batch_size=64,
+                    )
 
-path = './_save/'
-# path = '../_save/'
-# path = 'C:/study/_save/' #절대경로
 
-model.save(path + 'cat_dog_moedl.h5') 
 
-# 0.5703628063201904
-# 0.7066532373428345
+accuracy = hist.history['acc'] 
+
+val_acc = hist.history['val_acc'] 
+loss = hist.history['loss']
+val_loss = hist.history['val_loss']
+
+# [-1] 모든 훈련에 관한 loss 값이 나오기에 맨 마지막 훈련의 값을 출력 
+print('accuracy : ', accuracy[-1])
+print('val_acc : ', val_acc[-1])
+print('loss : ', loss[-1]) 
+print('val_loss : ', val_loss[-1])
+
+
+# 그림 그리삼
+
+
+
+# batch = xy_train.next() # next 파이썬 for 문 내장함수
+
+# print(batch)
+# print(len(batch)) #2
+# print(type(batch)) #tuple
+
+# import matplotlib.pyplot as plt
+# plt.figure(figsize=(10, 10))
+
+# for i in range(10) :
+#     plt.imshow(batch[0][i])
+# plt.show()
