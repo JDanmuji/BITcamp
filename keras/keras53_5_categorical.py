@@ -42,24 +42,8 @@ xy_test = xy_test.flow_from_directory( # 안에 있는 ad, normal 은 0, 1로 �
 ) 
 
 print(xy_train)
-# <keras.preprocessing.image.ImageDataGenerator object at 0x0000012E32072FA0>
 
-# from sklearn.datasets import load_iris
-# datasets = load_iris()
-
-# print(datasets)
-# print(xy_train[0])
-# error
-# print(xy_train[16][0].shape) #(5, 200, 200, 1)
-# print(xy_train[16][1].shape) #(5, 200, 200, 1)
-# ValueError: Asked to retrieve element 16, but the Sequence has length 16   
 print(xy_train[0][1])
-# print(xy_train[15][0].shape) #(5, 200, 200, 1)
-# print(xy_train[15][1].shape) #(5, 200, 200, 1)
 
-# print(type(xy_train))  # <class 'keras.preprocessing.image.DirectoryIterator'>
-# print(type(xy_train[0])) # <class 'tuple'> // tuple : list 와 같은 형태
-# print(type(xy_train[0][0])) # <class 'numpy.ndarray'>
-# print(type(xy_train[0][1])) # <class 'numpy.ndarray'>
 
 
